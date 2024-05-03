@@ -15,7 +15,6 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV['DATABASE_DEFAULT_USER'] %>
   password: <%= ENV['DATABASE_DEFAULT_PASSWORD'] %>
-  # socket: /tmp/mysql.sock
   host: localhost
   ssl_mode: :disabled
   sslverify: false
