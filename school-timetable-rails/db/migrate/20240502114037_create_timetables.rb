@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTimetables < ActiveRecord::Migration[7.1]
   def change
     create_table :timetables, id: false, primary_key: %i[user_id day_of_week time period] do |t|
