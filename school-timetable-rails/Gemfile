@@ -50,6 +50,7 @@ group :development do
   # gem "spring"
   gem 'prettier_print'
   gem 'rubocop'
+  gem 'rubocop-rails'
   gem 'syntax_tree'
   gem 'syntax_tree-haml'
   gem 'syntax_tree-rbs'
