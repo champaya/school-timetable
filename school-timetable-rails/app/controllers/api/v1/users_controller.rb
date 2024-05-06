@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class UsersController < ActionController
+    class UsersController < ApplicationController
       before_action :set_user
 
       # @todo showが返すものは本来データであり、認証情報を返すつくりは適切ではない
