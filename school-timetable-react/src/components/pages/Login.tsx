@@ -5,8 +5,19 @@ import { useState } from "react";
 import useGetAPI from "../../api/useGetAPI";
 import { CONSTANT } from "../../consts/constant";
 import { useDispatch } from "react-redux";
-import { setAuthResult } from "../../redux/slice/AuthSlice";
+import { setAuthUser } from "../../redux/slice/AuthUserSlice";
 import { useNavigate } from "react-router-dom";
+
+interface GetUser {
+  userInfo: {
+    user_id: number;
+    user_name: string;
+    password: string;
+    created_at: Date;
+    updated_at: Date;
+  };
+  auth: boolean;
+}
 
 /** ログインページ */
 const Login = () => {
@@ -22,13 +33,17 @@ const Login = () => {
    */
   const handleClickLogin = async () => {
     // get - users
-    const authResult = await getAPI(CONSTANT.API.USERS, studentNumber, {
+    const result = (await getAPI(CONSTANT.API.USERS, studentNumber, {
       password,
-    });
-    // 認証情報をReduxで管理
-    dispatch(setAuthResult(authResult));
-    // 時間割ページに遷移する
-    navigate(CONSTANT.ROUTE.USER_TIMETABLE);
+    })) as GetUser;
+    if (result.auth) {
+      // 認証情報をReduxで管理
+      dispatch(
+        setAuthUser({ user_id: result.userInfo.user_id, auth: result.auth })
+      );
+      // 時間割ページに遷移する
+      navigate(CONSTANT.ROUTE.USER_TIMETABLE);
+    }
   };
 
   return (

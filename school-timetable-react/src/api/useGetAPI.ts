@@ -10,7 +10,7 @@ const useGetAPI = () => {
 
   // @todo any以外で適切な型定義ができないか
   const getFunc = useCallback(
-    async (url: string, id: string, params: any) => {
+    async (url: string, id?: string | number, params?: any) => {
       // ローディングを表示
       dispatch(startLoading());
 

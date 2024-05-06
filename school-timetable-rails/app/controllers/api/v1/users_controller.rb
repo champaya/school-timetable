@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class UsersController < ActionController::API
+    class UsersController < ApplicationController
       before_action :set_user
 
       # @todo showが返すものは本来データであり、認証情報を返すつくりは適切ではない
@@ -10,7 +10,7 @@ module Api
       # GET /api/v1/users/:id 対象ユーザの情報を取得して認証を行う
       def show
         result = auth_user?
-        render json: { status: 'SUCCESS', message: 'Loaded users', data: result }, status: :ok
+        render json: { status: 'SUCCESS', message: 'Loaded users', data: { userInfo: @user, auth: result } }, status: :ok
       end
 
       # PATCH /api/v1/users/:id 対象ユーザのパスワードを更新する
