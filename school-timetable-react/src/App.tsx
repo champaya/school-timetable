@@ -11,6 +11,7 @@ import { CssBaseline } from "@mui/material";
 import Login from "./components/pages/Login";
 import Loading from "./components/share/Loading";
 import { wrappedUseSelector } from "./redux/store/store";
+import UserTimetable from "./components/pages/UserTimetable";
 
 /**
  * ルーティング設定
@@ -24,7 +25,10 @@ const router = createBrowserRouter([
         <Outlet />
       </>
     ),
-    children: [{ path: CONSTANT.ROUTE.DEFAULT, element: <Login /> }],
+    children: [
+      { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
+      { path: CONSTANT.ROUTE.USER_TIMETABLE, element: <UserTimetable /> },
+    ],
   },
 ]);
 
