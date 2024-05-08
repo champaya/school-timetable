@@ -115,10 +115,10 @@ const UserTimetable = () => {
             onChange={(e) => {
               setSelectedPeriod(e.target.value as number);
             }}
-            defaultValue={CONSTANT.PERIOD.EARLY}
+            defaultValue={CONSTANT.PERIOD.EARLY.value}
           >
-            <MenuItem value={CONSTANT.PERIOD.EARLY}>前期</MenuItem>
-            <MenuItem value={CONSTANT.PERIOD.LATE}>後期</MenuItem>
+            <MenuItem value={CONSTANT.PERIOD.EARLY.value}>前期</MenuItem>
+            <MenuItem value={CONSTANT.PERIOD.LATE.value}>後期</MenuItem>
           </Select>
         </FormControl>
       </div>
