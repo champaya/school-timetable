@@ -4,18 +4,18 @@ import { useDispatch } from "react-redux";
 import { CONSTANT } from "../consts/constant";
 import { startLoading, finishLoading } from "../redux/slice/LoadingSlice";
 
-/** API - get */
-const useGetAPI = () => {
+/** API - delete */
+const useDeleteAPI = () => {
   const dispatch = useDispatch();
 
   // @todo any以外で適切な型定義ができないか
-  const getFunc = useCallback(
-    async (url: string, id?: string | number, params?: any) => {
+  const deleteFunc = useCallback(
+    async (url: string, id: string | number, params?: any) => {
       // ローディングを表示
       dispatch(startLoading());
 
       return axios
-        .get(`${CONSTANT.API.BASE}${url}` + (id ?? ""), { params })
+        .delete(`${CONSTANT.API.BASE}${url}` + id, { params })
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());
@@ -31,7 +31,7 @@ const useGetAPI = () => {
     [dispatch]
   );
 
-  return getFunc;
+  return deleteFunc;
 };
 
-export default useGetAPI;
+export default useDeleteAPI;

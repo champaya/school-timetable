@@ -4,18 +4,19 @@ import { useDispatch } from "react-redux";
 import { CONSTANT } from "../consts/constant";
 import { startLoading, finishLoading } from "../redux/slice/LoadingSlice";
 
-/** API - get */
-const useGetAPI = () => {
+/** API - post */
+const usePostAPI = () => {
   const dispatch = useDispatch();
 
   // @todo any以外で適切な型定義ができないか
-  const getFunc = useCallback(
+  const postFunc = useCallback(
     async (url: string, id?: string | number, params?: any) => {
       // ローディングを表示
       dispatch(startLoading());
 
+      // @todo パラメータの構造がここだけ違う
       return axios
-        .get(`${CONSTANT.API.BASE}${url}` + (id ?? ""), { params })
+        .post(`${CONSTANT.API.BASE}${url}` + (id ?? ""), params)
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());
@@ -31,7 +32,7 @@ const useGetAPI = () => {
     [dispatch]
   );
 
-  return getFunc;
+  return postFunc;
 };
 
-export default useGetAPI;
+export default usePostAPI;
