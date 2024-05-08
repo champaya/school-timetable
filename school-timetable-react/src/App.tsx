@@ -12,6 +12,7 @@ import Login from "./components/pages/Login";
 import Loading from "./components/share/Loading";
 import { wrappedUseSelector } from "./redux/store/store";
 import UserTimetable from "./components/pages/UserTimetable";
+import Lectures from "./components/pages/Lectures/Lectures";
 
 /**
  * ルーティング設定
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
     children: [
       { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
       { path: CONSTANT.ROUTE.USER_TIMETABLE, element: <UserTimetable /> },
+      { path: CONSTANT.ROUTE.LECTURES, element: <Lectures /> },
     ],
   },
 ]);
