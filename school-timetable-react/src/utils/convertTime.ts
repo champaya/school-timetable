@@ -1,5 +1,11 @@
 import { CONSTANT } from "../consts/constant";
 
+/**
+ * コード形式の時間を文字列に変換する共通関数
+ *
+ * @param time 時間(コード)
+ * @returns 時間(文字列)
+ */
 const convertTime = (time: number) => {
   let label = "";
   switch (time) {

@@ -18,14 +18,18 @@ import {
 } from "../../../redux/slice/FilterLectureSlice";
 import { CONSTANT } from "../../../consts/constant";
 
+/** 授業絞り込みモーダル */
 const LecturesFilterModal = () => {
   const [open, setOpen] = useState(false);
+  /** モーダルオープン */
   const handleOpen = () => setOpen(true);
+  /** モーダルクローズ */
   const handleClose = () => setOpen(false);
 
   const filterLecture = wrappedUseSelector((state) => state.filterLecture);
   const dispatch = useDispatch();
 
+  // 曜日表示用の配列
   const dayOfWeekArray = [
     CONSTANT.DAY_OF_WEEk.MONDAY,
     CONSTANT.DAY_OF_WEEk.TUESDAY,
@@ -33,7 +37,7 @@ const LecturesFilterModal = () => {
     CONSTANT.DAY_OF_WEEk.THURSDAY,
     CONSTANT.DAY_OF_WEEk.FRIDAY,
   ];
-
+  // 時間表示用の配列
   const timeArray = [
     CONSTANT.TIME.FIRST_CLASS,
     CONSTANT.TIME.SECOND_CLASS,
@@ -41,7 +45,7 @@ const LecturesFilterModal = () => {
     CONSTANT.TIME.FOURTH_CLASS,
     CONSTANT.TIME.FIFTH_CLASS,
   ];
-
+  // 期間表示用の配列
   const periodArray = [CONSTANT.PERIOD.EARLY, CONSTANT.PERIOD.LATE];
 
   return (
@@ -57,10 +61,12 @@ const LecturesFilterModal = () => {
             <TextField
               label="授業ID"
               variant="standard"
+              // 授業IDが-1(無効値)の場合は空文字に変換する
               defaultValue={
                 filterLecture.lecture_id !== -1 ? filterLecture.lecture_id : ""
               }
               onChange={(e) => {
+                // 授業IDが空文字の場合は-1(無効値)に変換する
                 dispatch(
                   setFilterCondition({
                     day_of_week: filterLecture.day_of_week,

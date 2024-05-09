@@ -5,6 +5,7 @@ import convertPeriod from "../../../utils/convertPeriod";
 import convertDayOfWeek from "../../../utils/convertDayOfWeek";
 import convertTime from "../../../utils/convertTime";
 
+/** 授業詳細モーダル */
 const LecturesDetailModal = ({
   lecture_id,
   lecture_name,
@@ -17,7 +18,9 @@ const LecturesDetailModal = ({
   teacher_id,
 }: GetLecture) => {
   const [open, setOpen] = useState(false);
+  /** モーダルオープン */
   const handleOpen = () => setOpen(true);
+  /** モーダルクローズ */
   const handleClose = () => setOpen(false);
 
   return (

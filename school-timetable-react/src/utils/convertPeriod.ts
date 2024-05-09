@@ -1,5 +1,11 @@
 import { CONSTANT } from "../consts/constant";
 
+/**
+ * コード形式の期間を文字列に変換する共通関数
+ *
+ * @param period 期間(コード)
+ * @returns 期間(文字列)
+ */
 const convertPeriod = (period: number) => {
   let label = "";
   switch (period) {

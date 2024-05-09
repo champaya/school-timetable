@@ -23,6 +23,7 @@ import useDeleteAPI from "../../../api/useDeleteAPI";
 import { wrappedUseSelector } from "../../../redux/store/store";
 import { Link } from "react-router-dom";
 
+/** 授業一覧ページ */
 const Lectures = () => {
   const [lectures, setLectures] = useState<GetLecture[]>([]);
   const filteredLectures = useFilterLectures(lectures);
@@ -43,14 +44,26 @@ const Lectures = () => {
     })();
   }, [getAPI]);
 
+  /**
+   * 「登録」ボタン押下時に発火
+   *
+   * @param lecture 押下行の授業
+   */
   const handleClickRegister = async (lecture: GetLecture) => {
+    // 授業を登録するAPI通信を行う
     await postAPI(CONSTANT.API.TIMETABLES, undefined, {
       user_id: authUser.user_id,
       lecture_id: lecture.lecture_id,
     });
   };
 
+  /**
+   * 「削除」ボタン押下時に発火
+   *
+   * @param lecture 押下行の授業
+   */
   const handleClickDelete = async (lecture: GetLecture) => {
+    // 授業を削除するAPI通信を行う
     await deleteAPI(CONSTANT.API.TIMETABLES, authUser.user_id, {
       lecture_id: lecture.lecture_id,
     });
