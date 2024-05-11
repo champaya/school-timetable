@@ -9,13 +9,13 @@ import Cookies from "js-cookie";
 const useGetAPI = () => {
   const dispatch = useDispatch();
 
-  // @todo any以外で適切な型定義ができないか
+  // axiosのリクエストボディに入る型は結局anyのため、引数「params」のみanyを許容する（オブジェクトであることは最低限保証するように型付けする）
   const getFunc = useCallback(
     async (
       url: string,
       authParamFlg: boolean,
       id?: string | number,
-      params?: any
+      params?: { [key: string]: any }
     ) => {
       // ローディングを表示
       dispatch(startLoading());
