@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { CONSTANT } from "../../consts/constant";
 
 export interface FilterCondition {
   lecture_id: number;
@@ -9,7 +10,12 @@ export interface FilterCondition {
 
 const FilterLectureSlice = createSlice({
   name: "FilterLecture",
-  initialState: { lecture_id: -1, day_of_week: -1, time: -1, period: -1 },
+  initialState: {
+    lecture_id: CONSTANT.LECTURE_ID.ALL.value,
+    day_of_week: CONSTANT.DAY_OF_WEEk.ALL.value,
+    time: CONSTANT.TIME.ALL.value,
+    period: CONSTANT.PERIOD.ALL.value,
+  },
   reducers: {
     setFilterCondition: (
       state: FilterCondition,
@@ -18,7 +24,12 @@ const FilterLectureSlice = createSlice({
       return { ...state, ...action.payload };
     },
     resetFilterCondition: () => {
-      return { lecture_id: -1, day_of_week: -1, time: -1, period: -1 };
+      return {
+        lecture_id: CONSTANT.LECTURE_ID.ALL.value,
+        day_of_week: CONSTANT.DAY_OF_WEEk.ALL.value,
+        time: CONSTANT.TIME.ALL.value,
+        period: CONSTANT.PERIOD.ALL.value,
+      };
     },
   },
 });

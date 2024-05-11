@@ -36,7 +36,7 @@ const UserTimetable = () => {
       const timetableResult = (await getAPI(
         CONSTANT.API.TIMETABLES,
         true,
-        Cookies.get("_id")
+        Cookies.get(CONSTANT.COOKIES.ID)
       )) as GetTimeTable[];
       setTimetable(timetableResult);
     })();
@@ -141,10 +141,10 @@ const UserTimetable = () => {
                     <TableCell
                       key={lectureIndex}
                       //   授業登録済みのコマは授業ID,曜日,時間を持つが、未登録のコマは授業ID.曜日,時間を持たないため
-                      //   授業ID⇒無効値（-1）、曜日⇒lectureIndex + 1、時間⇒itemIndex + 1を引数で渡して絞り込み条件を設定する
+                      //   授業ID⇒すべて（-1）、曜日⇒lectureIndex + 1、時間⇒itemIndex + 1を引数で渡して絞り込み条件を設定する
                       onClick={() => {
                         handleClickLecture(
-                          lecture.lecture_id ?? -1,
+                          lecture.lecture_id ?? CONSTANT.LECTURE_ID.ALL.value,
                           lecture.day_of_week ?? lectureIndex + 1,
                           lecture.time ?? itemIndex + 1,
                           selectedPeriod
