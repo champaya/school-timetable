@@ -89,4 +89,29 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # deviceメールの設定
+  config.action_mailer.default_url_options = { host: 'alcohol-type.com', port: 3000 }
+  # メール送信失敗時のエラーを発生させる
+  config.action_mailer.raise_delivery_errors = true
+  # メール送信にSMTPを使用する
+  config.action_mailer.delivery_method = :smtp
+  # SMPTの詳細設定
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    # HELOコマンドで使用するドメイン、たぶん無くてもok
+    domain: 'smtp.gmail.com',
+    # Gmailのメールアドレス
+    user_name: ENV['GOOGLE_MAIL_ADDRESS'],
+    # Googleのアプリパスワード
+    password: ENV['GOOGLE_APP_PASSWORD'],
+    # メールサーバーの認証の種類
+    authentication: 'plain',
+    # STARTTLSを自動検出して有効化
+    enable_starttls_auto: true
+  }
+
+  # cors設定
+  config.allow_origins = ['https://app.alcohol-type.com']
 end

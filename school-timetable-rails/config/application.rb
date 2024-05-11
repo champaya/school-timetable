@@ -37,7 +37,7 @@ module SchoolTimetableRails
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:5173'
+        origins Rails.configuration.allow_origins
         resource '*',
                  headers: :any,
                  expose: %w[access-token uid client],

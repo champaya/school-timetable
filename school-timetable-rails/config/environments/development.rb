@@ -70,6 +70,7 @@ Rails.application.configure do
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
 
+  # deviceメールの設定
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   # メール送信失敗時のエラーを発生させる
   config.action_mailer.raise_delivery_errors = true
@@ -90,4 +91,7 @@ Rails.application.configure do
     # STARTTLSを自動検出して有効化
     enable_starttls_auto: true
   }
+
+  # cors設定
+  config.allow_origins = ['http://localhost:5173']
 end

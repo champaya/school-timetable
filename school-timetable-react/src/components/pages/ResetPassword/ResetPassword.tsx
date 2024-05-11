@@ -18,7 +18,7 @@ const ResetPassword = () => {
   const handleClickReset = () => {
     post(`${CONSTANT.API.Auth}${CONSTANT.API.PASSWORD}`, false, undefined, {
       email,
-      redirect_url: "http://localhost:5173/change-password",
+      redirect_url: `${CONSTANT.ROUTE.DOMAIN}${CONSTANT.ROUTE.CHANGE_PASSWORD}`,
     })
       .then(() => {
         setMessage("メールを送付しました。ご確認ください。");
