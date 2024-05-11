@@ -1,13 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { loadingReducer } from "../slice/LoadingSlice";
-import { AuthUserReducer } from "../slice/AuthUserSlice";
 import { FilterLectureReducer } from "../slice/FilterLectureSlice";
 
 const store = configureStore({
   reducer: {
     loading: loadingReducer,
-    authUser: AuthUserReducer,
     filterLecture: FilterLectureReducer,
   },
 });

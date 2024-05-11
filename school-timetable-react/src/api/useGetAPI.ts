@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { CONSTANT } from "../consts/constant";
 import { startLoading, finishLoading } from "../redux/slice/LoadingSlice";
+import Cookies from "js-cookie";
 
 /** API - get */
 const useGetAPI = () => {
@@ -10,9 +11,26 @@ const useGetAPI = () => {
 
   // @todo any以外で適切な型定義ができないか
   const getFunc = useCallback(
-    async (url: string, id?: string | number, params?: any) => {
+    async (
+      url: string,
+      authParamFlg: boolean,
+      id?: string | number,
+      params?: any
+    ) => {
       // ローディングを表示
       dispatch(startLoading());
+
+      // パラメータに認証情報を付与
+      if (authParamFlg) {
+        params = {
+          ...params,
+          ...{
+            uid: Cookies.get("_uid"),
+            client: Cookies.get("_client"),
+            "access-token": Cookies.get("_access-token"),
+          },
+        };
+      }
 
       return axios
         .get(`${CONSTANT.API.BASE}${url}` + (id ?? ""), { params })

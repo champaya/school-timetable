@@ -5,6 +5,8 @@ export namespace CONSTANT {
     export const DEFAULT = "/";
     export const USER_TIMETABLE = "/user-timetable";
     export const LECTURES = "/lectures";
+    export const RESET_PASSWORD = "/reset-password";
+    export const CHANGE_PASSWORD = "/change-password";
   }
   /** APIエンドポイント */
   export namespace API {
@@ -12,6 +14,11 @@ export namespace CONSTANT {
     export const USERS = "users/";
     export const TIMETABLES = "timetables/";
     export const LECTURES = "lectures/";
+    export const Auth = "auth/";
+    export const SIGN_IN = "sign_in/";
+    export const SIGN_OUT = "sign_out/";
+    export const SESSIONS = "sessions/";
+    export const PASSWORD = "password/";
   }
 
   /** 前期/後期 */
