@@ -13,10 +13,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import useGetAPI from "../../api/useGetAPI";
-import { CONSTANT } from "../../consts/constant";
+import useGetAPI from "../../../api/useGetAPI";
+import { CONSTANT } from "../../../consts/constant";
 import { useDispatch } from "react-redux";
-import { setFilterCondition } from "../../redux/slice/FilterLectureSlice";
+import { setFilterCondition } from "../../../redux/slice/FilterLectureSlice";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 

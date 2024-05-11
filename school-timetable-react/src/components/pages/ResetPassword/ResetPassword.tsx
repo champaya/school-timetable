@@ -2,8 +2,8 @@
 import { css } from "@emotion/react";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { CONSTANT } from "../../consts/constant";
-import usePostAPI from "../../api/usePostAPI";
+import { CONSTANT } from "../../../consts/constant";
+import usePostAPI from "../../../api/usePostAPI";
 
 /** パスワード変更用メール送付ページ */
 const ResetPassword = () => {
