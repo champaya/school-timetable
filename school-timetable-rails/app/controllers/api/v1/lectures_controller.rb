@@ -2,6 +2,7 @@
 
 module Api
   module V1
+    # lecturesリソースクラス
     class LecturesController < ApplicationController
       # 処理前にログインユーザのチェック
       before_action :authenticate_api_v1_user!
