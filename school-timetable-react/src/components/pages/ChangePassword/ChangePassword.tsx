@@ -2,8 +2,8 @@
 import { css } from "@emotion/react";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { CONSTANT } from "../../consts/constant";
-import usePutAPI from "../../api/usePatchAPI";
+import { CONSTANT } from "../../../consts/constant";
+import usePutAPI from "../../../api/usePutAPI";
 import { useNavigate } from "react-router-dom";
 
 /** パスワード変更ページ */

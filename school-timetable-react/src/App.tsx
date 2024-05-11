@@ -8,13 +8,13 @@ import {
 } from "react-router-dom";
 import { CONSTANT } from "./consts/constant";
 import { CssBaseline } from "@mui/material";
-import Login from "./components/pages/Login";
+import Login from "./components/pages/Login/Login";
 import Loading from "./components/share/Loading";
 import { wrappedUseSelector } from "./redux/store/store";
-import UserTimetable from "./components/pages/UserTimetable";
+import UserTimetable from "./components/pages/UserTimetable/UserTimetable";
 import Lectures from "./components/pages/Lectures/Lectures";
-import ResetPassword from "./components/pages/ResetPassword";
-import ChangePassword from "./components/pages/ChangePassword";
+import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
+import ChangePassword from "./components/pages/ChangePassword/ChangePassword";
 
 /**
  * ルーティング設定
