@@ -18,7 +18,6 @@ export namespace CONSTANT {
     export const Auth = "auth/";
     export const SIGN_IN = "sign_in/";
     export const SIGN_OUT = "sign_out/";
-    export const SESSIONS = "sessions/";
     export const PASSWORD = "password/";
   }
 
