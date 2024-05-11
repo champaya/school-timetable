@@ -51,7 +51,7 @@ const Lectures = () => {
   const handleClickRegister = async (lecture: GetLecture) => {
     // 授業を登録するAPI通信を行う
     await postAPI(CONSTANT.API.TIMETABLES, true, undefined, {
-      user_id: Cookies.get("_id"),
+      user_id: Cookies.get(CONSTANT.COOKIES.UID),
       lecture_id: lecture.lecture_id,
     });
   };
@@ -63,9 +63,14 @@ const Lectures = () => {
    */
   const handleClickDelete = async (lecture: GetLecture) => {
     // 授業を削除するAPI通信を行う
-    await deleteAPI(CONSTANT.API.TIMETABLES, true, Cookies.get("_id"), {
-      lecture_id: lecture.lecture_id,
-    });
+    await deleteAPI(
+      CONSTANT.API.TIMETABLES,
+      true,
+      Cookies.get(CONSTANT.COOKIES.ID),
+      {
+        lecture_id: lecture.lecture_id,
+      }
+    );
   };
 
   return (
