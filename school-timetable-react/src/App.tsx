@@ -15,28 +15,7 @@ import UserTimetable from "./components/pages/UserTimetable/UserTimetable";
 import Lectures from "./components/pages/Lectures/Lectures";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
 import ChangePassword from "./components/pages/ChangePassword/ChangePassword";
-
-/**
- * ルーティング設定
- */
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <>
-        <ScrollRestoration />
-        <Outlet />
-      </>
-    ),
-    children: [
-      { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
-      { path: CONSTANT.ROUTE.USER_TIMETABLE, element: <UserTimetable /> },
-      { path: CONSTANT.ROUTE.LECTURES, element: <Lectures /> },
-      { path: CONSTANT.ROUTE.RESET_PASSWORD, element: <ResetPassword /> },
-      { path: CONSTANT.ROUTE.CHANGE_PASSWORD, element: <ChangePassword /> },
-    ],
-  },
-]);
+import Header from "./components/share/Header";
 
 const App = () => {
   const loading = wrappedUseSelector((state) => state.loading);
@@ -51,6 +30,29 @@ const App = () => {
     </>
   );
 };
+
+/**
+ * ルーティング設定
+ */
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <>
+        {location.pathname !== "/" && <Header />}
+        <ScrollRestoration />
+        <Outlet />
+      </>
+    ),
+    children: [
+      { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
+      { path: CONSTANT.ROUTE.USER_TIMETABLE, element: <UserTimetable /> },
+      { path: CONSTANT.ROUTE.LECTURES, element: <Lectures /> },
+      { path: CONSTANT.ROUTE.RESET_PASSWORD, element: <ResetPassword /> },
+      { path: CONSTANT.ROUTE.CHANGE_PASSWORD, element: <ChangePassword /> },
+    ],
+  },
+]);
 
 const globalCSS = css`
   /* スクロールバーのスタイル */
