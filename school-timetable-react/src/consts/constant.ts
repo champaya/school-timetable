@@ -2,6 +2,7 @@
 export namespace CONSTANT {
   /** ルーティング設定 */
   export namespace ROUTE {
+    export const DOMAIN = import.meta.env.VITE_ROUTE_BASE;
     export const DEFAULT = "/";
     export const USER_TIMETABLE = "/user-timetable";
     export const LECTURES = "/lectures";
@@ -10,7 +11,7 @@ export namespace CONSTANT {
   }
   /** APIエンドポイント */
   export namespace API {
-    export const BASE = "http://localhost:3000/api/v1/";
+    export const BASE = import.meta.env.VITE_API_BASE;
     export const USERS = "users/";
     export const TIMETABLES = "timetables/";
     export const LECTURES = "lectures/";
