@@ -61,19 +61,21 @@ const LecturesFilterModal = () => {
             <TextField
               label="授業ID"
               variant="standard"
-              // 授業IDが-1(無効値)の場合は空文字に変換する
+              // 授業IDが-1(すべて)の場合は空文字に変換する
               defaultValue={
-                filterLecture.lecture_id !== -1 ? filterLecture.lecture_id : ""
+                filterLecture.lecture_id !== CONSTANT.LECTURE_ID.ALL.value
+                  ? filterLecture.lecture_id
+                  : CONSTANT.LECTURE_ID.ALL.label
               }
               onChange={(e) => {
-                // 授業IDが空文字の場合は-1(無効値)に変換する
+                // 授業IDが空文字の場合は-1(すべて)に変換する
                 dispatch(
                   setFilterCondition({
                     day_of_week: filterLecture.day_of_week,
                     lecture_id:
-                      e.target.value !== ""
+                      e.target.value !== CONSTANT.LECTURE_ID.ALL.label
                         ? Number.parseInt(e.target.value)
-                        : -1,
+                        : CONSTANT.LECTURE_ID.ALL.value,
                     period: filterLecture.period,
                     time: filterLecture.time,
                   })
@@ -98,9 +100,9 @@ const LecturesFilterModal = () => {
                 }}
               >
                 <FormControlLabel
-                  value={String(-1)}
+                  value={String(CONSTANT.DAY_OF_WEEk.ALL.value)}
                   control={<Radio />}
-                  label="すべて"
+                  label={CONSTANT.DAY_OF_WEEk.ALL.label}
                 />
                 {dayOfWeekArray.map((day_of_week, index) => {
                   return (
@@ -132,9 +134,9 @@ const LecturesFilterModal = () => {
                 }}
               >
                 <FormControlLabel
-                  value={String(-1)}
+                  value={String(CONSTANT.TIME.ALL.value)}
                   control={<Radio />}
-                  label="すべて"
+                  label={CONSTANT.TIME.ALL.label}
                 />
                 {timeArray.map((time, index) => {
                   return (
@@ -166,9 +168,9 @@ const LecturesFilterModal = () => {
                 }}
               >
                 <FormControlLabel
-                  value={String(-1)}
+                  value={String(CONSTANT.PERIOD.ALL.value)}
                   control={<Radio />}
-                  label="すべて"
+                  label={CONSTANT.PERIOD.ALL.label}
                 />
                 {periodArray.map((period, index) => {
                   return (
@@ -192,7 +194,6 @@ const LecturesFilterModal = () => {
   );
 };
 
-// @todo 分割
 const style = {
   position: "absolute",
   top: "50%",

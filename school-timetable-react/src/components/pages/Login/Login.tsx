@@ -49,12 +49,22 @@ const Login = () => {
           >
         ) => {
           // cookieに認証情報を保存
-          Cookies.set("_uid", resolve.headers.uid, { expires: 1 });
-          Cookies.set("_client", resolve.headers.client, { expires: 1 });
-          Cookies.set("_access-token", resolve.headers["access-token"], {
+          Cookies.set(CONSTANT.COOKIES.UID, resolve.headers.uid, {
             expires: 1,
           });
-          Cookies.set("_id", String(resolve.data.data.id), { expires: 1 });
+          Cookies.set(CONSTANT.COOKIES.CLIENT, resolve.headers.client, {
+            expires: 1,
+          });
+          Cookies.set(
+            CONSTANT.COOKIES.ACCESS_TOKEN,
+            resolve.headers["access-token"],
+            {
+              expires: 1,
+            }
+          );
+          Cookies.set(CONSTANT.COOKIES.ID, String(resolve.data.data.id), {
+            expires: 1,
+          });
           // 時間割ページに遷移する
           navigate(CONSTANT.ROUTE.USER_TIMETABLE);
         }
