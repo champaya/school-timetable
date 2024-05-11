@@ -3,6 +3,7 @@
 module Api
   module V1
     module Auth
+      # registrasionリソースクラス
       class RegistrationsController < DeviseTokenAuth::RegistrationsController
         private
 

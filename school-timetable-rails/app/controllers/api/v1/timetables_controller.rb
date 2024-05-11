@@ -2,11 +2,11 @@
 
 module Api
   module V1
+    # timetablesリソースクラス
     class TimetablesController < ApplicationController
       # 処理前にログインユーザのチェック
       before_action :authenticate_api_v1_user!
 
-      # @todo rails標準の機能でSQLを代替できないか検討
       # GET /api/v1/timetables/:id 対象ユーザの時間割を取得する
       def show
         timetable = Timetable.select('timetables.day_of_week, timetables.time, timetables.period, lectures.lecture_id, lectures.lecture_name, lectures.credit_count, teachers.teacher_name ')

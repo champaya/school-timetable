@@ -1,4 +1,23 @@
 inherit_from: .rubocop_todo.yml
 
-Style/EndOfLine:
-  EnforcedStyle: lf
+# windows開発のためキャリッジリターン禁止をoffにする
+Layout/EndOfLine:
+  Enabled: False
+# メソッド名の長さ制限を、config,db配下のみoffにする
+Metrics/MethodLength:
+  Exclude:
+    - "config/**/*"
+    - "db/**/*"
+# ブロックの長さ制限を、config,db配下のみoffにする
+Metrics/BlockLength:
+  Exclude:
+    - "config/**/*"
+    - "db/**/*"
+# クラスに対してのコメントが必要な設定を、db配下のみoffにする
+Style/Documentation:
+  Exclude:
+    - "db/**/*"
+# コードの複雑性に関する指標を、deviceに関わるdevise_token_auth_create_users.rbのみoffにする
+Metrics/AbcSize:
+  Exclude:
+    - "db/migrate/20240511005723_devise_token_auth_create_users.rb"
