@@ -13,6 +13,8 @@ import Loading from "./components/share/Loading";
 import { wrappedUseSelector } from "./redux/store/store";
 import UserTimetable from "./components/pages/UserTimetable";
 import Lectures from "./components/pages/Lectures/Lectures";
+import ResetPassword from "./components/pages/ResetPassword";
+import ChangePassword from "./components/pages/ChangePassword";
 
 /**
  * ルーティング設定
@@ -30,6 +32,8 @@ const router = createBrowserRouter([
       { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
       { path: CONSTANT.ROUTE.USER_TIMETABLE, element: <UserTimetable /> },
       { path: CONSTANT.ROUTE.LECTURES, element: <Lectures /> },
+      { path: CONSTANT.ROUTE.RESET_PASSWORD, element: <ResetPassword /> },
+      { path: CONSTANT.ROUTE.CHANGE_PASSWORD, element: <ChangePassword /> },
     ],
   },
 ]);

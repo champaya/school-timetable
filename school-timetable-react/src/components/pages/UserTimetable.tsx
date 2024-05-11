@@ -18,7 +18,7 @@ import { CONSTANT } from "../../consts/constant";
 import { useDispatch } from "react-redux";
 import { setFilterCondition } from "../../redux/slice/FilterLectureSlice";
 import { useNavigate } from "react-router-dom";
-import { wrappedUseSelector } from "../../redux/store/store";
+import Cookies from "js-cookie";
 
 interface GetTimeTable {
   day_of_week?: number;
@@ -37,7 +37,6 @@ const UserTimetable = () => {
 
   const getAPI = useGetAPI();
   const dispatch = useDispatch();
-  const auth = wrappedUseSelector((state) => state.authUser);
   const navigate = useNavigate();
 
   /** コンポーネントマウント時に登録済み時間割データを取得する */
@@ -45,11 +44,12 @@ const UserTimetable = () => {
     (async () => {
       const timetableResult = (await getAPI(
         CONSTANT.API.TIMETABLES,
-        auth.user_id
+        true,
+        Cookies.get("_id")
       )) as GetTimeTable[];
       setTimetable(timetableResult);
     })();
-  }, [auth.user_id, getAPI]);
+  }, [getAPI]);
 
   /**
    * 時間割データを時間/曜日が適切な場所に表示できるように設定する

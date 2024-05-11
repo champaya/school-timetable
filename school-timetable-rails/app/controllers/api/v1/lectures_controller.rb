@@ -3,6 +3,9 @@
 module Api
   module V1
     class LecturesController < ApplicationController
+      # 処理前にログインユーザのチェック
+      before_action :authenticate_api_v1_user!
+
       # GET /api/v1/lectures 授業一覧の情報を取得する
       def index
         @lectures = Lecture.select('lectures.*, teachers.teacher_name')

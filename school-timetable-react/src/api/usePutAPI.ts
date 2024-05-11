@@ -5,12 +5,12 @@ import { CONSTANT } from "../consts/constant";
 import { startLoading, finishLoading } from "../redux/slice/LoadingSlice";
 import Cookies from "js-cookie";
 
-/** API - post */
-const usePostAPI = () => {
+/** API - put */
+const usePutAPI = () => {
   const dispatch = useDispatch();
 
   // @todo any以外で適切な型定義ができないか
-  const postFunc = useCallback(
+  const putFunc = useCallback(
     async (
       url: string,
       authParamFlg: boolean,
@@ -34,7 +34,7 @@ const usePostAPI = () => {
 
       // @todo パラメータの構造がここだけ違う
       return axios
-        .post(`${CONSTANT.API.BASE}${url}` + (id ?? ""), params)
+        .put(`${CONSTANT.API.BASE}${url}` + (id ?? ""), params)
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());
@@ -50,7 +50,7 @@ const usePostAPI = () => {
     [dispatch]
   );
 
-  return postFunc;
+  return putFunc;
 };
 
-export default usePostAPI;
+export default usePutAPI;

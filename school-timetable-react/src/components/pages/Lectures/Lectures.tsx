@@ -20,15 +20,13 @@ import convertTime from "../../../utils/convertTime";
 import convertPeriod from "../../../utils/convertPeriod";
 import usePostAPI from "../../../api/usePostAPI";
 import useDeleteAPI from "../../../api/useDeleteAPI";
-import { wrappedUseSelector } from "../../../redux/store/store";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 /** 授業一覧ページ */
 const Lectures = () => {
   const [lectures, setLectures] = useState<GetLecture[]>([]);
   const filteredLectures = useFilterLectures(lectures);
-
-  const authUser = wrappedUseSelector((state) => state.authUser);
 
   const getAPI = useGetAPI();
   const postAPI = usePostAPI();
@@ -38,7 +36,8 @@ const Lectures = () => {
   useEffect(() => {
     (async () => {
       const lectureResult = (await getAPI(
-        CONSTANT.API.LECTURES
+        CONSTANT.API.LECTURES,
+        true
       )) as GetLecture[];
       setLectures(lectureResult);
     })();
@@ -51,8 +50,8 @@ const Lectures = () => {
    */
   const handleClickRegister = async (lecture: GetLecture) => {
     // 授業を登録するAPI通信を行う
-    await postAPI(CONSTANT.API.TIMETABLES, undefined, {
-      user_id: authUser.user_id,
+    await postAPI(CONSTANT.API.TIMETABLES, true, undefined, {
+      user_id: Cookies.get("_id"),
       lecture_id: lecture.lecture_id,
     });
   };
@@ -64,7 +63,7 @@ const Lectures = () => {
    */
   const handleClickDelete = async (lecture: GetLecture) => {
     // 授業を削除するAPI通信を行う
-    await deleteAPI(CONSTANT.API.TIMETABLES, authUser.user_id, {
+    await deleteAPI(CONSTANT.API.TIMETABLES, true, Cookies.get("_id"), {
       lecture_id: lecture.lecture_id,
     });
   };
