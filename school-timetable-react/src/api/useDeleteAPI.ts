@@ -33,7 +33,7 @@ const useDeleteAPI = () => {
       }
 
       return axios
-        .delete(`${CONSTANT.API.BASE}${url}` + id, { params })
+        .delete(`${CONSTANT.API.BASE}${url}` + (id ?? ""), { params })
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());
