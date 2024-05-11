@@ -19,16 +19,7 @@ import { useDispatch } from "react-redux";
 import { setFilterCondition } from "../../../redux/slice/FilterLectureSlice";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
-interface GetTimeTable {
-  day_of_week?: number;
-  time?: number;
-  period?: number;
-  lecture_id?: number;
-  lecture_name?: string;
-  credit_count?: number;
-  teacher_name?: string;
-}
+import { GetTimeTable } from "./UserTimetable.model";
 
 /** ユーザ別時間割ページ */
 const UserTimetable = () => {
