@@ -32,7 +32,6 @@ const usePostAPI = () => {
         };
       }
 
-      // @todo パラメータの構造がここだけ違う
       return axios
         .post(`${CONSTANT.API.BASE}${url}` + (id ?? ""), params)
         .then((response: AxiosResponse) => {

@@ -12,7 +12,7 @@ module Api
         @lectures = Lecture.select('lectures.*, teachers.teacher_name')
                            .joins('inner join teachers on lectures.teacher_id = teachers.teacher_id')
                            .order(lecture_id: :asc)
-        render json: { status: 'SUCCESS', message: 'Loaded lectures', data: @lectures }, status: :ok
+        render json: @lectures
       end
     end
   end

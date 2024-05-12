@@ -37,7 +37,7 @@ const useGetAPI = () => {
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());
-          return response.data.data;
+          return response;
         })
         .catch((error: AxiosError) => {
           // ローディングを非表示
