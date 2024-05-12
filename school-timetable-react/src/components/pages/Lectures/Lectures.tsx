@@ -28,10 +28,12 @@ import { useDispatch } from "react-redux";
 import { resetFilterCondition } from "../../../redux/slice/FilterLectureSlice";
 import { wrappedUseSelector } from "../../../redux/store/store";
 import { AxiosResponse } from "axios";
+import { ResponseGetTimeTable } from "../UserTimetable/UserTimetable.model";
 
 /** 授業一覧ページ */
 const Lectures = () => {
   const [lectures, setLectures] = useState<ResponseGetLecture[]>([]);
+  const [timetable, setTimetable] = useState<ResponseGetTimeTable[]>([]);
   const filteredLectures = useFilterLectures(lectures);
 
   const getAPI = useGetAPI();
@@ -41,14 +43,24 @@ const Lectures = () => {
   const filterCondition = wrappedUseSelector((state) => state.filterLecture);
   const dispatch = useDispatch();
 
-  /** コンポーネントマウント時に授業データを取得する */
+  /** コンポーネントマウント時に授業データと時間割データを取得する */
   useEffect(() => {
+    // 授業データ取得
     getAPI(
       CONSTANT.API.LECTURES,
       true,
       CONSTANT.ERROR_MESSAGE.LECTURES_GET
     ).then((response: AxiosResponse<ResponseGetLecture[]>) => {
       setLectures(response.data);
+    });
+    // 時間割データ取得
+    getAPI(
+      CONSTANT.API.TIMETABLES,
+      true,
+      CONSTANT.ERROR_MESSAGE.TIMETABLES_GET,
+      Cookies.get(CONSTANT.COOKIES.ID)
+    ).then((response: AxiosResponse<ResponseGetTimeTable[]>) => {
+      setTimetable(response.data);
     });
   }, [getAPI]);
 
@@ -92,7 +104,12 @@ const Lectures = () => {
   return (
     <div css={lectureContainer}>
       <h1>授業一覧</h1>
-      <h3>絞り込み条件</h3>
+      <div css={filterTitleContainer}>
+        <h3>絞り込み条件</h3>
+        <h4>
+          絞り込み後件数：<span>{filteredLectures.length}</span>件
+        </h4>
+      </div>
       <div css={filterContainer}>
         <div css={fileterConditionLabel}>
           授業ID{"　 "}：
@@ -188,7 +205,13 @@ const Lectures = () => {
                 </TdTableCell>
                 <TdTableCell>
                   <div css={tableCellButtonContainer}>
+                    {/* すでに登録済みの授業は登録ボタンを押下不可とする */}
                     <Button
+                      disabled={
+                        !!timetable.find((item) => {
+                          return item.lecture_id === lecture.lecture_id;
+                        })
+                      }
                       variant="outlined"
                       onClick={() => {
                         handleClickRegister(lecture);
@@ -196,7 +219,13 @@ const Lectures = () => {
                     >
                       登録
                     </Button>
+                    {/* 登録されていない授業は削除ボタンを押下不可とする */}
                     <Button
+                      disabled={
+                        !!timetable.find((item) => {
+                          return item.lecture_id !== lecture.lecture_id;
+                        })
+                      }
                       variant="outlined"
                       color="error"
                       onClick={() => {
@@ -222,9 +251,20 @@ const lectureContainer = css`
   h1 {
     margin: 1rem 0;
   }
-  h3 {
+`;
+
+const filterTitleContainer = css`
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h3,
+  h4 {
     margin: 0;
-    padding-left: 2rem;
+  }
+
+  span {
+    font-size: 1.7rem;
   }
 `;
 
