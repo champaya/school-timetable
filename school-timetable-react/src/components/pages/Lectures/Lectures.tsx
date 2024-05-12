@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import LecturesFilterModal from "./LecturesFilterModal";
 import LecturesDetailModal from "./LecturesDetailModal";
-import { GetLecture } from "./Lectures.model";
+import { ResponseGetLecture } from "./Lectures.model";
 import useFilterLectures from "../../../hooks/useFilterLectures";
 import convertDayOfWeek from "../../../utils/convertDayOfWeek";
 import convertTime from "../../../utils/convertTime";
@@ -27,10 +27,11 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { resetFilterCondition } from "../../../redux/slice/FilterLectureSlice";
 import { wrappedUseSelector } from "../../../redux/store/store";
+import { AxiosResponse } from "axios";
 
 /** 授業一覧ページ */
 const Lectures = () => {
-  const [lectures, setLectures] = useState<GetLecture[]>([]);
+  const [lectures, setLectures] = useState<ResponseGetLecture[]>([]);
   const filteredLectures = useFilterLectures(lectures);
 
   const getAPI = useGetAPI();
@@ -42,10 +43,13 @@ const Lectures = () => {
 
   /** コンポーネントマウント時に授業データを取得する */
   useEffect(() => {
-    (async () => {
-      const lectureResult = await getAPI(CONSTANT.API.LECTURES, true);
-      setLectures(lectureResult.data as GetLecture[]);
-    })();
+    getAPI(
+      CONSTANT.API.LECTURES,
+      true,
+      CONSTANT.ERROR_MESSAGE.LECTURES_GET
+    ).then((response: AxiosResponse<ResponseGetLecture[]>) => {
+      setLectures(response.data);
+    });
   }, [getAPI]);
 
   /**
@@ -53,12 +57,18 @@ const Lectures = () => {
    *
    * @param lecture 押下行の授業
    */
-  const handleClickRegister = async (lecture: GetLecture) => {
+  const handleClickRegister = (lecture: ResponseGetLecture) => {
     // 授業を登録するAPI通信を行う
-    await postAPI(CONSTANT.API.TIMETABLES, true, undefined, {
-      user_id: Cookies.get(CONSTANT.COOKIES.ID),
-      lecture_id: lecture.lecture_id,
-    });
+    postAPI(
+      CONSTANT.API.TIMETABLES,
+      true,
+      CONSTANT.ERROR_MESSAGE.TIMETABLES_POST,
+      undefined,
+      {
+        user_id: Cookies.get(CONSTANT.COOKIES.ID),
+        lecture_id: lecture.lecture_id,
+      }
+    );
   };
 
   /**
@@ -66,11 +76,12 @@ const Lectures = () => {
    *
    * @param lecture 押下行の授業
    */
-  const handleClickDelete = async (lecture: GetLecture) => {
+  const handleClickDelete = (lecture: ResponseGetLecture) => {
     // 授業を削除するAPI通信を行う
-    await deleteAPI(
+    deleteAPI(
       CONSTANT.API.TIMETABLES,
       true,
+      CONSTANT.ERROR_MESSAGE.TIMETABLES_DELETE,
       Cookies.get(CONSTANT.COOKIES.ID),
       {
         lecture_id: lecture.lecture_id,

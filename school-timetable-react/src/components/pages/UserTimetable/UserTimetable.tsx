@@ -20,11 +20,12 @@ import { useDispatch } from "react-redux";
 import { setFilterCondition } from "../../../redux/slice/FilterLectureSlice";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { DisplayTimeTable, GetTimeTable } from "./UserTimetable.model";
+import { DisplayTimeTable, ResponseGetTimeTable } from "./UserTimetable.model";
+import { AxiosResponse } from "axios";
 
 /** ユーザ別時間割ページ */
 const UserTimetable = () => {
-  const [timetable, setTimetable] = useState<GetTimeTable[]>([]);
+  const [timetable, setTimetable] = useState<ResponseGetTimeTable[]>([]);
   const [selectedPeriod, setSelectedPeriod] = useState<number>(1);
 
   const getAPI = useGetAPI();
@@ -33,14 +34,14 @@ const UserTimetable = () => {
 
   /** コンポーネントマウント時に登録済み時間割データを取得する */
   useEffect(() => {
-    (async () => {
-      const timetableResult = await getAPI(
-        CONSTANT.API.TIMETABLES,
-        true,
-        Cookies.get(CONSTANT.COOKIES.ID)
-      );
-      setTimetable(timetableResult.data as GetTimeTable[]);
-    })();
+    getAPI(
+      CONSTANT.API.TIMETABLES,
+      true,
+      CONSTANT.ERROR_MESSAGE.TIMETABLES_GET,
+      Cookies.get(CONSTANT.COOKIES.ID)
+    ).then((response: AxiosResponse<ResponseGetTimeTable[]>) => {
+      setTimetable(response.data);
+    });
   }, [getAPI]);
 
   /**
@@ -49,7 +50,7 @@ const UserTimetable = () => {
    * @param table サーバから取得した登録済み時間割データ
    * @returns 表示用時間割データ
    */
-  const sortTimeTable = (table: GetTimeTable[]) => {
+  const sortTimeTable = (table: ResponseGetTimeTable[]) => {
     const forDisplayArray: DisplayTimeTable[] = [
       { monday: {}, tuesday: {}, wednesday: {}, thursday: {}, friday: {} },
       { monday: {}, tuesday: {}, wednesday: {}, thursday: {}, friday: {} },
@@ -109,7 +110,7 @@ const UserTimetable = () => {
    * @param table サーバから取得した登録済み時間割データ
    * @returns 合計値
    */
-  const sumCreditCount = (table: GetTimeTable[]) => {
+  const sumCreditCount = (table: ResponseGetTimeTable[]) => {
     let total = 0;
     table.forEach((lecture) => {
       if (lecture.period === selectedPeriod) {

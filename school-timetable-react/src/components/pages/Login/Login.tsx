@@ -12,7 +12,6 @@ import usePostAPI from "../../../api/usePostAPI";
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isError, setIsError] = useState<boolean>(false);
 
   const post = usePostAPI();
   const navigate = useNavigate();
@@ -22,63 +21,64 @@ const Login = () => {
    */
   const handleClickLogin = () => {
     // サインイン
-    post(`${CONSTANT.API.Auth}${CONSTANT.API.SIGN_IN}`, false, undefined, {
-      email,
-      password,
-    })
-      .then(
-        (
-          resolve: AxiosResponse<
-            {
-              data: {
-                email: string;
-                provider: string;
-                uid: string;
-                id: number;
-                allow_password_change: boolean;
-                name: string;
-                nickname: string;
-                image: string;
-              };
-            },
-            {
+    post(
+      `${CONSTANT.API.Auth}${CONSTANT.API.SIGN_IN}`,
+      false,
+      CONSTANT.ERROR_MESSAGE.AUTH_SIGN_IN_POST,
+      undefined,
+      {
+        email,
+        password,
+      }
+    ).then(
+      (
+        response: AxiosResponse<
+          {
+            data: {
+              email: string;
+              provider: string;
               uid: string;
-              client: string;
-              "access-token": string;
-            }
-          >
-        ) => {
-          // cookieに認証情報を保存
-          Cookies.set(CONSTANT.COOKIES.UID, resolve.headers.uid, {
+              id: number;
+              allow_password_change: boolean;
+              name: string;
+              nickname: string;
+              image: string;
+            };
+          },
+          {
+            uid: string;
+            client: string;
+            "access-token": string;
+          }
+        >
+      ) => {
+        // cookieに認証情報を保存
+        Cookies.set(CONSTANT.COOKIES.UID, response.headers.uid, {
+          expires: 1,
+        });
+        Cookies.set(CONSTANT.COOKIES.CLIENT, response.headers.client, {
+          expires: 1,
+        });
+        Cookies.set(
+          CONSTANT.COOKIES.ACCESS_TOKEN,
+          response.headers["access-token"],
+          {
             expires: 1,
-          });
-          Cookies.set(CONSTANT.COOKIES.CLIENT, resolve.headers.client, {
-            expires: 1,
-          });
-          Cookies.set(
-            CONSTANT.COOKIES.ACCESS_TOKEN,
-            resolve.headers["access-token"],
-            {
-              expires: 1,
-            }
-          );
-          Cookies.set(CONSTANT.COOKIES.ID, String(resolve.data.data.id), {
-            expires: 1,
-          });
-          // 時間割ページに遷移する
-          navigate(CONSTANT.ROUTE.USER_TIMETABLE);
-        }
-      )
-      .catch(() => {
-        setIsError(true);
-      });
+          }
+        );
+        Cookies.set(CONSTANT.COOKIES.ID, String(response.data.data.id), {
+          expires: 1,
+        });
+        // 時間割ページに遷移する
+        navigate(CONSTANT.ROUTE.USER_TIMETABLE);
+      }
+    );
   };
 
   return (
     <form>
       <div css={loginContainer}>
         <h1>ログイン</h1>
-        {isError && <p>emailもしくはパスワードが間違っています</p>}
         <TextField
           label="email"
           variant="standard"

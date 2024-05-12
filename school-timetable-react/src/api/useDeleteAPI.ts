@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { CONSTANT } from "../consts/constant";
 import { startLoading, finishLoading } from "../redux/slice/LoadingSlice";
 import Cookies from "js-cookie";
+import { openErrorModal } from "../redux/slice/ErrorModalSlice";
 
 /** API - delete */
 const useDeleteAPI = () => {
@@ -11,9 +12,10 @@ const useDeleteAPI = () => {
 
   // axiosのリクエストボディに入る型は結局anyのため、引数「params」のみanyを許容する（オブジェクトであることは最低限保証するように型付けする）
   const deleteFunc = useCallback(
-    async (
+    (
       url: string,
       authParamFlg: boolean,
+      errorMessage: string,
       id?: string | number,
       params?: { [key: string]: any }
     ) => {
@@ -42,6 +44,8 @@ const useDeleteAPI = () => {
         .catch((error: AxiosError) => {
           // ローディングを非表示
           dispatch(finishLoading());
+          // エラーモーダルを表示
+          dispatch(openErrorModal(errorMessage));
 
           throw error;
         });
