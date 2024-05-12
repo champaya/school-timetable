@@ -77,7 +77,7 @@ const Login = () => {
   return (
     <form>
       <div css={loginContainer}>
-        <h2>ログイン</h2>
+        <h1>ログイン</h1>
         {isError && <p>emailもしくはパスワードが間違っています</p>}
         <TextField
           label="email"
@@ -110,8 +110,12 @@ const loginContainer = css`
   place-content: center;
   gap: 0.5rem;
 
-  h2 {
+  h1 {
     margin: 0;
+  }
+
+  button {
+    margin-top: 1rem;
   }
 
   p {

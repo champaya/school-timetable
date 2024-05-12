@@ -39,17 +39,48 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <>
-        {location.pathname !== "/" && <Header />}
         <ScrollRestoration />
         <Outlet />
       </>
     ),
     children: [
       { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
-      { path: CONSTANT.ROUTE.USER_TIMETABLE, element: <UserTimetable /> },
-      { path: CONSTANT.ROUTE.LECTURES, element: <Lectures /> },
-      { path: CONSTANT.ROUTE.RESET_PASSWORD, element: <ResetPassword /> },
-      { path: CONSTANT.ROUTE.CHANGE_PASSWORD, element: <ChangePassword /> },
+      {
+        path: CONSTANT.ROUTE.USER_TIMETABLE,
+        element: (
+          <>
+            <Header />
+            <UserTimetable />
+          </>
+        ),
+      },
+      {
+        path: CONSTANT.ROUTE.LECTURES,
+        element: (
+          <>
+            <Header />
+            <Lectures />
+          </>
+        ),
+      },
+      {
+        path: CONSTANT.ROUTE.RESET_PASSWORD,
+        element: (
+          <>
+            <Header />
+            <ResetPassword />
+          </>
+        ),
+      },
+      {
+        path: CONSTANT.ROUTE.CHANGE_PASSWORD,
+        element: (
+          <>
+            <Header />
+            <ChangePassword />
+          </>
+        ),
+      },
     ],
   },
 ]);

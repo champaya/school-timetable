@@ -46,7 +46,9 @@ const ResetPassword = () => {
             setEmail(e.target.value);
           }}
         />
-        <Button onClick={handleClickReset}>パスワード変更</Button>
+        <Button variant="contained" onClick={handleClickReset}>
+          パスワード変更
+        </Button>
         <p>{message}</p>
       </div>
     </form>

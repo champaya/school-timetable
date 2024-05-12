@@ -7,3 +7,11 @@ export interface GetTimeTable {
   credit_count?: number;
   teacher_name?: string;
 }
+
+export interface DisplayTimeTable {
+  monday: GetTimeTable;
+  tuesday: GetTimeTable;
+  wednesday: GetTimeTable;
+  thursday: GetTimeTable;
+  friday: GetTimeTable;
+}
