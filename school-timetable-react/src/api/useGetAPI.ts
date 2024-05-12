@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { CONSTANT } from "../consts/constant";
 import { startLoading, finishLoading } from "../redux/slice/LoadingSlice";
 import Cookies from "js-cookie";
+import { openErrorModal } from "../redux/slice/ErrorModalSlice";
 
 /** API - get */
 const useGetAPI = () => {
@@ -11,9 +12,10 @@ const useGetAPI = () => {
 
   // axiosのリクエストボディに入る型は結局anyのため、引数「params」のみanyを許容する（オブジェクトであることは最低限保証するように型付けする）
   const getFunc = useCallback(
-    async (
+    (
       url: string,
       authParamFlg: boolean,
+      errorMessage: string,
       id?: string | number,
       params?: { [key: string]: any }
     ) => {
@@ -42,7 +44,8 @@ const useGetAPI = () => {
         .catch((error: AxiosError) => {
           // ローディングを非表示
           dispatch(finishLoading());
-
+          // エラーモーダルを表示
+          dispatch(openErrorModal(errorMessage));
           throw error;
         });
     },

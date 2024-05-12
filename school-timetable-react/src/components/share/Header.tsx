@@ -52,12 +52,17 @@ const Header = () => {
         break;
       // ログアウトしてからログインページに遷移
       case 3:
-        await deleteAPI(`${CONSTANT.API.Auth}${CONSTANT.API.SIGN_OUT}`, true);
-        Cookies.remove(CONSTANT.COOKIES.ACCESS_TOKEN);
-        Cookies.remove(CONSTANT.COOKIES.CLIENT);
-        Cookies.remove(CONSTANT.COOKIES.UID);
-        Cookies.remove(CONSTANT.COOKIES.ID);
-        navigate(CONSTANT.ROUTE.DEFAULT);
+        deleteAPI(
+          `${CONSTANT.API.Auth}${CONSTANT.API.SIGN_OUT}`,
+          true,
+          CONSTANT.ERROR_MESSAGE.AUTH_SIGN_OUT_DELETE
+        ).then(() => {
+          Cookies.remove(CONSTANT.COOKIES.ACCESS_TOKEN);
+          Cookies.remove(CONSTANT.COOKIES.CLIENT);
+          Cookies.remove(CONSTANT.COOKIES.UID);
+          Cookies.remove(CONSTANT.COOKIES.ID);
+          navigate(CONSTANT.ROUTE.DEFAULT);
+        });
         break;
       // パスワードリセットページに遷移
       case 4:
@@ -73,6 +78,9 @@ const Header = () => {
     navigate(CONSTANT.ROUTE.USER_TIMETABLE);
   };
 
+  /**
+   * メニュー用定数
+   */
   const settings = [
     { content: "時間割ページへ", value: 1 },
     { content: "授業一覧ページへ", value: 2 },

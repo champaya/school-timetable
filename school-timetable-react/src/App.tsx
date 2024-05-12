@@ -16,6 +16,7 @@ import Lectures from "./components/pages/Lectures/Lectures";
 import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
 import ChangePassword from "./components/pages/ChangePassword/ChangePassword";
 import Header from "./components/share/Header";
+import ErrorModal from "./components/share/ErrorModal";
 
 const App = () => {
   const loading = wrappedUseSelector((state) => state.loading);
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
       <>
         <ScrollRestoration />
         <Outlet />
+        <ErrorModal />
       </>
     ),
     children: [

@@ -1,4 +1,4 @@
-export interface GetTimeTable {
+export interface ResponseGetTimeTable {
   day_of_week?: number;
   time?: number;
   period?: number;
@@ -9,9 +9,9 @@ export interface GetTimeTable {
 }
 
 export interface DisplayTimeTable {
-  monday: GetTimeTable;
-  tuesday: GetTimeTable;
-  wednesday: GetTimeTable;
-  thursday: GetTimeTable;
-  friday: GetTimeTable;
+  monday: ResponseGetTimeTable;
+  tuesday: ResponseGetTimeTable;
+  wednesday: ResponseGetTimeTable;
+  thursday: ResponseGetTimeTable;
+  friday: ResponseGetTimeTable;
 }

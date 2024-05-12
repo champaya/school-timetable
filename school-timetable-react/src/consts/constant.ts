@@ -21,6 +21,19 @@ export namespace CONSTANT {
     export const PASSWORD = "password/";
   }
 
+  export namespace ERROR_MESSAGE {
+    export const AUTH_PASSWORD_POST =
+      "パスワード変更用のメールの送付ができませんでした。";
+    export const AUTH_PASSWORD_PUT = "パスワード変更に失敗しました。";
+    export const AUTH_SIGN_IN_POST =
+      "ログインに失敗しました。emailとパスワードをお確かめください。";
+    export const AUTH_SIGN_OUT_DELETE = "ログアウトに失敗しました。";
+    export const LECTURES_GET = "授業データの取得に失敗しました。";
+    export const TIMETABLES_GET = "時間割データの取得に失敗しました。";
+    export const TIMETABLES_POST = "授業の登録に失敗しました。";
+    export const TIMETABLES_DELETE = "授業の削除に失敗しました。";
+  }
+
   /** cookie */
   export namespace COOKIES {
     export const UID = "_uid";

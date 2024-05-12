@@ -16,18 +16,18 @@ const ResetPassword = () => {
    * 「パスワード変更」ボタン押下時に発火
    */
   const handleClickReset = () => {
-    post(`${CONSTANT.API.Auth}${CONSTANT.API.PASSWORD}`, false, undefined, {
-      email,
-      redirect_url: `${CONSTANT.ROUTE.DOMAIN}${CONSTANT.ROUTE.CHANGE_PASSWORD}`,
-    })
-      .then(() => {
-        setMessage("メールを送付しました。ご確認ください。");
-      })
-      .catch(() => {
-        setMessage(
-          "メールを送付できませんでした。時間を置いてからやり直してください。"
-        );
-      });
+    post(
+      `${CONSTANT.API.Auth}${CONSTANT.API.PASSWORD}`,
+      false,
+      CONSTANT.ERROR_MESSAGE.AUTH_PASSWORD_POST,
+      undefined,
+      {
+        email,
+        redirect_url: `${CONSTANT.ROUTE.DOMAIN}${CONSTANT.ROUTE.CHANGE_PASSWORD}`,
+      }
+    ).then(() => {
+      setMessage("メールを送付しました。ご確認ください。");
+    });
   };
 
   return (

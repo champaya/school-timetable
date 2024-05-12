@@ -1,4 +1,4 @@
-export interface GetLecture {
+export interface ResponseGetLecture {
   lecture_id: number;
   lecture_name: string;
   lecture_overview: string;
