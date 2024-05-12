@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
 import useGetAPI from "../../../api/useGetAPI";
 import { CONSTANT } from "../../../consts/constant";
@@ -10,6 +12,7 @@ import {
   TableCell,
   TableBody,
   Button,
+  styled,
 } from "@mui/material";
 import LecturesFilterModal from "./LecturesFilterModal";
 import LecturesDetailModal from "./LecturesDetailModal";
@@ -20,8 +23,10 @@ import convertTime from "../../../utils/convertTime";
 import convertPeriod from "../../../utils/convertPeriod";
 import usePostAPI from "../../../api/usePostAPI";
 import useDeleteAPI from "../../../api/useDeleteAPI";
-import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { resetFilterCondition } from "../../../redux/slice/FilterLectureSlice";
+import { wrappedUseSelector } from "../../../redux/store/store";
 
 /** 授業一覧ページ */
 const Lectures = () => {
@@ -31,6 +36,9 @@ const Lectures = () => {
   const getAPI = useGetAPI();
   const postAPI = usePostAPI();
   const deleteAPI = useDeleteAPI();
+
+  const filterCondition = wrappedUseSelector((state) => state.filterLecture);
+  const dispatch = useDispatch();
 
   /** コンポーネントマウント時に授業データを取得する */
   useEffect(() => {
@@ -51,7 +59,7 @@ const Lectures = () => {
   const handleClickRegister = async (lecture: GetLecture) => {
     // 授業を登録するAPI通信を行う
     await postAPI(CONSTANT.API.TIMETABLES, true, undefined, {
-      user_id: Cookies.get(CONSTANT.COOKIES.UID),
+      user_id: Cookies.get(CONSTANT.COOKIES.ID),
       lecture_id: lecture.lecture_id,
     });
   };
@@ -74,40 +82,93 @@ const Lectures = () => {
   };
 
   return (
-    <>
+    <div css={lectureContainer}>
       <h1>授業一覧</h1>
-      <Link to={CONSTANT.ROUTE.USER_TIMETABLE}>授業一覧に戻る</Link>
+      <h3>絞り込み条件</h3>
+      <div css={filterContainer}>
+        <div css={fileterConditionLabel}>
+          授業ID{"　 "}：
+          {filterCondition.lecture_id === CONSTANT.LECTURE_ID.ALL.value
+            ? "すべて"
+            : filterCondition.lecture_id}
+          <br />
+          時間{"　　 "}：
+          {filterCondition.time === CONSTANT.TIME.ALL.value
+            ? CONSTANT.TIME.ALL.label
+            : convertTime(filterCondition.time)}
+        </div>
+        <div css={fileterConditionLabel}>
+          曜日{"　　 "}：
+          {filterCondition.day_of_week === CONSTANT.DAY_OF_WEEk.ALL.value
+            ? CONSTANT.DAY_OF_WEEk.ALL.label
+            : convertDayOfWeek(filterCondition.day_of_week)}
+          <br />
+          前期/後期：
+          {filterCondition.period === CONSTANT.PERIOD.ALL.value
+            ? CONSTANT.PERIOD.ALL.label
+            : convertPeriod(filterCondition.period)}
+        </div>
+        <div css={filterButtonContainer}>
+          <LecturesFilterModal />
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => {
+              dispatch(resetFilterCondition());
+            }}
+          >
+            絞り込みクリア
+          </Button>
+        </div>
+      </div>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }}>
+        <Table>
           <TableHead>
             <TableRow>
-              <TableCell>授業ID</TableCell>
-              <TableCell>授業名</TableCell>
-              <TableCell>単位数</TableCell>
-              <TableCell>曜日</TableCell>
-              <TableCell>時間</TableCell>
-              <TableCell>前期/後期</TableCell>
-              <TableCell>担当教授</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
+              <ThTableCell align="center">授業ID</ThTableCell>
+              <ThTableCell>授業名</ThTableCell>
+              <ThTableCell align="center">単位数</ThTableCell>
+              <ThTableCell align="center">曜日</ThTableCell>
+              <ThTableCell align="center">時間</ThTableCell>
+              <ThTableCell align="center">前期/後期</ThTableCell>
+              <ThTableCell align="center">担当教授</ThTableCell>
+              <ThTableCell align="center"></ThTableCell>
+              <ThTableCell align="center"></ThTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredLectures.map((lecture, lectureIndex) => (
-              <TableRow
-                key={lectureIndex}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell>{lecture.lecture_id}</TableCell>
-                <TableCell>{lecture.lecture_name}</TableCell>
-                <TableCell>{lecture.credit_count}</TableCell>
-                <TableCell>{convertDayOfWeek(lecture.day_of_week)}</TableCell>
-                <TableCell>{convertTime(lecture.time)}</TableCell>
-                <TableCell>{convertPeriod(lecture.period)}</TableCell>
-                <TableCell>{lecture.teacher_name}</TableCell>
-                <TableCell>
+              <TableRow key={lectureIndex}>
+                {/* 固有のスタイルをsxで付与 */}
+                <TdTableCell
+                  align="center"
+                  sx={{ width: "80px", boxSizing: "border-box" }}
+                >
+                  <div css={lectureIdContainer}>{lecture.lecture_id}</div>
+                </TdTableCell>
+                {/* 固有のスタイルをsxで付与 */}
+                <TdTableCell sx={{ width: "300px", boxSizing: "border-box" }}>
+                  <div css={lectureNameContainer}>{lecture.lecture_name}</div>
+                </TdTableCell>
+                <TdTableCell align="center">{lecture.credit_count}</TdTableCell>
+                <TdTableCell align="center">
+                  {convertDayOfWeek(lecture.day_of_week)}
+                </TdTableCell>
+                <TdTableCell align="center">
+                  {convertTime(lecture.time)}
+                </TdTableCell>
+                <TdTableCell align="center">
+                  {convertPeriod(lecture.period)}
+                </TdTableCell>
+                {/* 固有のスタイルをsxで付与 */}
+                <TdTableCell
+                  align="center"
+                  sx={{ width: "100px", boxSizing: "border-box" }}
+                >
+                  <div css={teacherNameContainer}>{lecture.teacher_name}</div>
+                </TdTableCell>
+                <TdTableCell align="center">
                   <LecturesDetailModal
-                    lecture_id={lecture.lecture_id}
                     lecture_name={lecture.lecture_name}
                     credit_count={lecture.credit_count}
                     day_of_week={lecture.day_of_week}
@@ -115,33 +176,120 @@ const Lectures = () => {
                     period={lecture.period}
                     teacher_name={lecture.teacher_name}
                     lecture_overview={lecture.lecture_overview}
-                    teacher_id={lecture.teacher_id}
                   />
-                </TableCell>
-                <TableCell>
-                  <Button
-                    onClick={() => {
-                      handleClickRegister(lecture);
-                    }}
-                  >
-                    登録
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      handleClickDelete(lecture);
-                    }}
-                  >
-                    削除
-                  </Button>
-                </TableCell>
+                </TdTableCell>
+                <TdTableCell>
+                  <div css={tableCellButtonContainer}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => {
+                        handleClickRegister(lecture);
+                      }}
+                    >
+                      登録
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => {
+                        handleClickDelete(lecture);
+                      }}
+                    >
+                      削除
+                    </Button>
+                  </div>
+                </TdTableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <LecturesFilterModal />
-    </>
+    </div>
   );
 };
+
+const lectureContainer = css`
+  padding: 0.5rem 3rem;
+
+  h1 {
+    margin: 1rem 0;
+  }
+  h3 {
+    margin: 0;
+    padding-left: 2rem;
+  }
+`;
+
+const filterContainer = css`
+  padding: 0 2rem 0.1rem;
+  display: flex;
+  justify-content: space-between;
+`;
+
+const fileterConditionLabel = css`
+  display: flex;
+  align-items: center;
+  width: 15rem;
+`;
+
+const filterButtonContainer = css`
+  display: grid;
+  place-content: center;
+  gap: 0.5rem;
+`;
+
+/**
+ * thのセル用にTableCellをラップ
+ */
+const ThTableCell = styled(TableCell)`
+  color: #696969;
+  font-weight: bold;
+  padding: 1rem 0.4rem;
+`;
+
+/**
+ * tdのセル用にTableCellをラップ
+ */
+const TdTableCell = styled(TableCell)`
+  color: #696969;
+  font-weight: 500;
+  padding: 0.4rem;
+  overflow: hidden;
+`;
+
+/**
+ * 授業IDが動的に変わるため幅設定と、3点リーダ設定を入れる
+ */
+const lectureIdContainer = css`
+  width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+/**
+ * 授業名が動的に変わるため幅設定と、3点リーダ設定を入れる
+ */
+const lectureNameContainer = css`
+  width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+/**
+ * 授業名が動的に変わるため幅設定と、3点リーダ設定を入れる
+ */
+const teacherNameContainer = css`
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const tableCellButtonContainer = css`
+  display: grid;
+  gap: 0.3rem;
+`;
 
 export default Lectures;

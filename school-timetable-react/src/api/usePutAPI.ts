@@ -26,7 +26,7 @@ const usePutAPI = () => {
           ...params,
           ...{
             uid: Cookies.get(CONSTANT.COOKIES.UID),
-            client: Cookies.get(CONSTANT.COOKIES.UID),
+            client: Cookies.get(CONSTANT.COOKIES.CLIENT),
             "access-token": Cookies.get(CONSTANT.COOKIES.ACCESS_TOKEN),
           },
         };

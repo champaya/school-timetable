@@ -12,10 +12,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router-dom";
 import { CONSTANT } from "../../consts/constant";
 import useDeleteAPI from "../../api/useDeleteAPI";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { resetFilterCondition } from "../../redux/slice/FilterLectureSlice";
 
 const Header = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const deleteAPI = useDeleteAPI();
 
@@ -33,23 +38,29 @@ const Header = () => {
    *
    * @param value メニューアイテムを押下した場合のメニューアイテム識別値
    */
-  const handleCloseUserMenu = (value?: number) => {
+  const handleCloseUserMenu = async (value?: number) => {
     setAnchorElUser(null);
     switch (value) {
       // 時間割ページに遷移
       case 1:
         navigate(CONSTANT.ROUTE.USER_TIMETABLE);
         break;
-      // ログアウトしてからログインページに遷移
+      // 授業一覧ページに遷移
       case 2:
-        deleteAPI(`${CONSTANT.API.Auth}${CONSTANT.API.SIGN_OUT}`, true).then(
-          () => {
-            navigate(CONSTANT.ROUTE.DEFAULT);
-          }
-        );
+        dispatch(resetFilterCondition());
+        navigate(CONSTANT.ROUTE.LECTURES);
+        break;
+      // ログアウトしてからログインページに遷移
+      case 3:
+        await deleteAPI(`${CONSTANT.API.Auth}${CONSTANT.API.SIGN_OUT}`, true);
+        Cookies.remove(CONSTANT.COOKIES.ACCESS_TOKEN);
+        Cookies.remove(CONSTANT.COOKIES.CLIENT);
+        Cookies.remove(CONSTANT.COOKIES.UID);
+        Cookies.remove(CONSTANT.COOKIES.ID);
+        navigate(CONSTANT.ROUTE.DEFAULT);
         break;
       // パスワードリセットページに遷移
-      case 3:
+      case 4:
         navigate(CONSTANT.ROUTE.RESET_PASSWORD);
         break;
     }
@@ -64,80 +75,71 @@ const Header = () => {
 
   const settings = [
     { content: "時間割ページへ", value: 1 },
-    { content: "ログアウト", value: 2 },
-    { content: "パスワードを変更", value: 3 },
+    { content: "授業一覧ページへ", value: 2 },
+    { content: "ログアウト", value: 3 },
+    { content: "パスワード変更", value: 4 },
   ];
 
   return (
-    <>
-      {/* ログイン画面のときのみ非表示とする */}
-      {location.pathname !== "/" && (
-        <AppBar
-          position="static"
-          sx={{ backgroundColor: "primary", zIndex: "1" }}
-        >
-          <Container>
-            {/* タイトル */}
-            <Toolbar disableGutters>
-              <Typography
-                variant="h5"
-                noWrap
-                sx={{
-                  fontWeight: 700,
-                  letterSpacing: "0.3rem",
-                  cursor: "pointer",
-                }}
-              >
-                <span onClick={handleClickBack}>時間割</span>
-              </Typography>
+    <AppBar position="static" sx={{ backgroundColor: "primary", zIndex: "1" }}>
+      <Container>
+        {/* タイトル */}
+        <Toolbar disableGutters>
+          <Typography
+            variant="h5"
+            noWrap
+            sx={{
+              fontWeight: 700,
+              letterSpacing: "0.3rem",
+              cursor: "pointer",
+            }}
+          >
+            <span onClick={handleClickBack}>時間割</span>
+          </Typography>
 
-              {/* メニュー */}
-              <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "end" }}>
-                <Tooltip title="メニューを開く">
-                  <Button onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <MenuIcon
-                      fontSize="large"
-                      sx={{ color: "white", margin: "0.1rem" }}
-                    />
-                  </Button>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: "3rem" }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={() => {
-                    handleCloseUserMenu();
+          {/* メニュー */}
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "end" }}>
+            <Tooltip title="メニューを開く">
+              <Button onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <MenuIcon
+                  fontSize="large"
+                  sx={{ color: "white", margin: "0.1rem" }}
+                />
+              </Button>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "3rem" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={() => {
+                handleCloseUserMenu();
+              }}
+            >
+              {settings.map((setting) => (
+                <MenuItem
+                  key={setting.value}
+                  onClick={() => {
+                    handleCloseUserMenu(setting.value);
                   }}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem
-                      key={setting.value}
-                      onClick={() => {
-                        handleCloseUserMenu(setting.value);
-                      }}
-                    >
-                      <Typography textAlign="center">
-                        {setting.content}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
-            </Toolbar>
-          </Container>
-        </AppBar>
-      )}
-    </>
+                  <Typography textAlign="center">{setting.content}</Typography>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

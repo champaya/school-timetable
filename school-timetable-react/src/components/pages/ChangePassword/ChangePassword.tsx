@@ -6,7 +6,7 @@ import { CONSTANT } from "../../../consts/constant";
 import usePutAPI from "../../../api/usePutAPI";
 import { useNavigate } from "react-router-dom";
 
-/** パスワード変更ページ */
+/** パスワード再設定ページ */
 const ChangePassword = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -18,7 +18,7 @@ const ChangePassword = () => {
   const navigate = useNavigate();
 
   /**
-   * 「パスワード変更」ボタン押下時に発火
+   * 「パスワード再設定」ボタン押下時に発火
    */
   const handleClickReset = () => {
     put(`${CONSTANT.API.Auth}${CONSTANT.API.PASSWORD}`, true, undefined, {
@@ -45,6 +45,9 @@ const ChangePassword = () => {
     <form>
       <div css={changePasswordContainer}>
         <h2>パスワードの再設定</h2>
+        <p>
+          変更後のパスワードを入力後、パスワード再設定ボタンを押下してください。
+        </p>
         <TextField
           label="パスワード"
           variant="standard"
@@ -59,7 +62,9 @@ const ChangePassword = () => {
             setConfirmPassword(e.target.value);
           }}
         />
-        <Button onClick={handleClickReset}>パスワード再設定</Button>
+        <Button variant="contained" onClick={handleClickReset}>
+          パスワード再設定
+        </Button>
         <p>{message}</p>
         {isChanged && (
           <Button
@@ -87,7 +92,7 @@ const changePasswordContainer = css`
     margin: 0;
   }
 
-  p {
+  p:last-child {
     color: #f55;
   }
 `;

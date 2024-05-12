@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import {
   Button,
   Modal,
@@ -12,10 +14,7 @@ import {
 import { useState } from "react";
 import { wrappedUseSelector } from "../../../redux/store/store";
 import { useDispatch } from "react-redux";
-import {
-  resetFilterCondition,
-  setFilterCondition,
-} from "../../../redux/slice/FilterLectureSlice";
+import { setFilterCondition } from "../../../redux/slice/FilterLectureSlice";
 import { CONSTANT } from "../../../consts/constant";
 
 /** 授業絞り込みモーダル */
@@ -50,14 +49,29 @@ const LecturesFilterModal = () => {
 
   return (
     <div>
-      <Button onClick={handleOpen}>絞り込み</Button>
+      <Button variant="contained" onClick={handleOpen}>
+        条件で絞り込み
+      </Button>
       <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          <Typography variant="h6" component="h2">
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 700,
+            bgcolor: "background.paper",
+            border: "2px solid #696969",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography variant="h4" component="h2">
             絞り込み条件
           </Typography>
-          <Typography sx={{ mt: 2 }}>
-            授業ID
+          <Typography sx={{ mt: "1rem" }} component="div">
+            {/* 授業ID */}
+            <span css={filterItemtitle}>授業ID</span>
             <TextField
               label="授業ID"
               variant="standard"
@@ -81,9 +95,11 @@ const LecturesFilterModal = () => {
                   })
                 );
               }}
+              sx={{ m: "0.4rem" }}
             />
+            {/* 曜日 */}
             <FormControl>
-              曜日
+              <span css={filterItemtitle}>曜日</span>
               <RadioGroup
                 row
                 name="controlled-radio-day-of-week"
@@ -116,8 +132,9 @@ const LecturesFilterModal = () => {
                 })}
               </RadioGroup>
             </FormControl>
+            {/* 時間 */}
             <FormControl>
-              時間
+              <span css={filterItemtitle}>時間</span>
               <RadioGroup
                 row
                 name="controlled-radio-time"
@@ -150,8 +167,9 @@ const LecturesFilterModal = () => {
                 })}
               </RadioGroup>
             </FormControl>
+            {/* 前期/後期 */}
             <FormControl>
-              前期/後期
+              <span css={filterItemtitle}>前期/後期</span>
               <RadioGroup
                 row
                 name="controlled-radio-period"
@@ -184,9 +202,6 @@ const LecturesFilterModal = () => {
                 })}
               </RadioGroup>
             </FormControl>
-            <Button onClick={() => dispatch(resetFilterCondition())}>
-              絞り込み条件をクリア
-            </Button>
           </Typography>
         </Box>
       </Modal>
@@ -194,16 +209,8 @@ const LecturesFilterModal = () => {
   );
 };
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+const filterItemtitle = css`
+  font-weight: bold;
+`;
 
 export default LecturesFilterModal;
