@@ -14,8 +14,5 @@ class CreateLectures < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
-
-    # @todo uniqueの制約を持たせたい
-    # add_index :keywords, %i[day_of_week time period teacher_id], unique: true
   end
 end
