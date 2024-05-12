@@ -19,8 +19,8 @@ module Api
 
       # POST /api/v1/timetables 対象ユーザに授業を登録する
       def create
-        args = ['insert timetables (user_id,	day_of_week, `time`, period, lecture_id, created_at, updated_at)
-                 select ?, lectures.day_of_week, lectures.`time`, lectures.period, lectures.lecture_id , lectures.created_at, lectures.updated_at from lectures where lecture_id = ?',
+        args = ['insert timetables (user_id,	day_of_week, `time`, period, lecture_id)
+                 select ?, lectures.day_of_week, lectures.`time`, lectures.period, lectures.lecture_id from lectures where lecture_id = ?',
                 params[:user_id], params[:lecture_id]]
         sql = ActiveRecord::Base.send(:sanitize_sql_array, args)
         ActiveRecord::Base.connection.execute(sql)
