@@ -44,8 +44,16 @@ const useGetAPI = () => {
         .catch((error: AxiosError) => {
           // ローディングを非表示
           dispatch(finishLoading());
-          // エラーモーダルを表示
-          dispatch(openErrorModal(errorMessage));
+
+          // code:450のみカスタムの例外処理とする
+          if (error.response?.status === CONSTANT.ERROR_CODE.OPERATION_OTHERS) {
+            // エラーモーダルを表示
+            dispatch(openErrorModal(CONSTANT.ERROR_MESSAGE.CUSTOME_ERROR_450));
+          } else {
+            // エラーモーダルを表示
+            dispatch(openErrorModal(errorMessage));
+          }
+
           throw error;
         });
     },

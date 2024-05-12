@@ -19,6 +19,12 @@ module Api
 
       # POST /api/v1/timetables 対象ユーザに授業を登録する
       def create
+        # 自分以外のデータを操作しないように、ログインユーザとリクエストのidをチェック
+        if current_api_v1_user.id != params[:user_id]
+          render status: 450
+          return
+        end
+
         args = ['insert timetables (user_id,	day_of_week, `time`, period, lecture_id)
                  select ?, lectures.day_of_week, lectures.`time`, lectures.period, lectures.lecture_id from lectures where lecture_id = ?',
                 params[:user_id], params[:lecture_id]]
@@ -28,6 +34,12 @@ module Api
 
       # DELETE /api/v1/timetables/:id 対象ユーザの対象授業を削除する
       def destroy
+        # 自分以外のデータを操作しないように、ログインユーザとリクエストのidをチェック
+        if current_api_v1_user.id != params[:id]
+          render status: 450
+          return
+        end
+
         args = ['delete from timetables where user_id = ? and lecture_id = ?',
                 params[:id], params[:lecture_id]]
         sql = ActiveRecord::Base.send(:sanitize_sql_array, args)

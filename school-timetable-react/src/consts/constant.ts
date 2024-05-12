@@ -21,6 +21,7 @@ export namespace CONSTANT {
     export const PASSWORD = "password/";
   }
 
+  /** エラーメッセージ */
   export namespace ERROR_MESSAGE {
     export const AUTH_PASSWORD_POST =
       "パスワード変更用のメールの送付ができませんでした。";
@@ -30,8 +31,17 @@ export namespace CONSTANT {
     export const AUTH_SIGN_OUT_DELETE = "ログアウトに失敗しました。";
     export const LECTURES_GET = "授業データの取得に失敗しました。";
     export const TIMETABLES_GET = "時間割データの取得に失敗しました。";
-    export const TIMETABLES_POST = "授業の登録に失敗しました。";
-    export const TIMETABLES_DELETE = "授業の削除に失敗しました。";
+    export const TIMETABLES_POST =
+      "授業の登録に失敗しました。同じ時間・曜日にすでに授業が登録されていないかご確認ください。";
+    export const TIMETABLES_DELETE =
+      "授業の削除に失敗しました。授業が登録されていることをご確認ください。";
+    export const CUSTOME_ERROR_450 =
+      "他の人の時間割を登録・削除しようとしています。ログインしなおしてください。";
+  }
+
+  /** エラーコード */
+  export namespace ERROR_CODE {
+    export const OPERATION_OTHERS = 450;
   }
 
   /** cookie */
