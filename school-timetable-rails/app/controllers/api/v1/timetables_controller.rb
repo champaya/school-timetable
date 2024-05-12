@@ -2,8 +2,11 @@
 
 module Api
   module V1
+    # timetablesリソースクラス
     class TimetablesController < ApplicationController
-      # @todo rails標準の機能でSQLを代替できないか検討
+      # 処理前にログインユーザのチェック
+      before_action :authenticate_api_v1_user!
+
       # GET /api/v1/timetables/:id 対象ユーザの時間割を取得する
       def show
         timetable = Timetable.select('timetables.day_of_week, timetables.time, timetables.period, lectures.lecture_id, lectures.lecture_name, lectures.credit_count, teachers.teacher_name ')
@@ -11,13 +14,19 @@ module Api
                              .where(
                                'timetables.user_id = ?', params[:id]
                              )
-        render json: { status: 'SUCCESS', message: 'Loaded timetables', data: timetable }, status: :ok
+        render json: timetable
       end
 
       # POST /api/v1/timetables 対象ユーザに授業を登録する
       def create
-        args = ['insert timetables (user_id,	day_of_week, `time`, period, lecture_id, created_at, updated_at)
-                 select ?, lectures.day_of_week, lectures.`time`, lectures.period, lectures.lecture_id , lectures.created_at, lectures.updated_at from lectures where lecture_id = ?',
+        # 自分以外のデータを操作しないように、ログインユーザとリクエストのidをチェック
+        if current_api_v1_user.id != params[:user_id]
+          render status: 450
+          return
+        end
+
+        args = ['insert timetables (user_id,	day_of_week, `time`, period, lecture_id)
+                 select ?, lectures.day_of_week, lectures.`time`, lectures.period, lectures.lecture_id from lectures where lecture_id = ?',
                 params[:user_id], params[:lecture_id]]
         sql = ActiveRecord::Base.send(:sanitize_sql_array, args)
         ActiveRecord::Base.connection.execute(sql)
@@ -25,6 +34,12 @@ module Api
 
       # DELETE /api/v1/timetables/:id 対象ユーザの対象授業を削除する
       def destroy
+        # 自分以外のデータを操作しないように、ログインユーザとリクエストのidをチェック
+        if current_api_v1_user.id != params[:id]
+          render status: 450
+          return
+        end
+
         args = ['delete from timetables where user_id = ? and lecture_id = ?',
                 params[:id], params[:lecture_id]]
         sql = ActiveRecord::Base.send(:sanitize_sql_array, args)

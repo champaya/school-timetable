@@ -8,31 +8,15 @@ import {
 } from "react-router-dom";
 import { CONSTANT } from "./consts/constant";
 import { CssBaseline } from "@mui/material";
-import Login from "./components/pages/Login";
+import Login from "./components/pages/Login/Login";
 import Loading from "./components/share/Loading";
 import { wrappedUseSelector } from "./redux/store/store";
-import UserTimetable from "./components/pages/UserTimetable";
+import UserTimetable from "./components/pages/UserTimetable/UserTimetable";
 import Lectures from "./components/pages/Lectures/Lectures";
-
-/**
- * ルーティング設定
- */
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: (
-      <>
-        <ScrollRestoration />
-        <Outlet />
-      </>
-    ),
-    children: [
-      { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
-      { path: CONSTANT.ROUTE.USER_TIMETABLE, element: <UserTimetable /> },
-      { path: CONSTANT.ROUTE.LECTURES, element: <Lectures /> },
-    ],
-  },
-]);
+import ResetPassword from "./components/pages/ResetPassword/ResetPassword";
+import ChangePassword from "./components/pages/ChangePassword/ChangePassword";
+import Header from "./components/share/Header";
+import ErrorModal from "./components/share/ErrorModal";
 
 const App = () => {
   const loading = wrappedUseSelector((state) => state.loading);
@@ -47,6 +31,61 @@ const App = () => {
     </>
   );
 };
+
+/**
+ * ルーティング設定
+ */
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <>
+        <ScrollRestoration />
+        <Outlet />
+        <ErrorModal />
+      </>
+    ),
+    children: [
+      { path: CONSTANT.ROUTE.DEFAULT, element: <Login /> },
+      {
+        path: CONSTANT.ROUTE.USER_TIMETABLE,
+        element: (
+          <>
+            <Header />
+            <UserTimetable />
+          </>
+        ),
+      },
+      {
+        path: CONSTANT.ROUTE.LECTURES,
+        element: (
+          <>
+            <Header />
+            <Lectures />
+          </>
+        ),
+      },
+      {
+        path: CONSTANT.ROUTE.RESET_PASSWORD,
+        element: (
+          <>
+            <Header />
+            <ResetPassword />
+          </>
+        ),
+      },
+      {
+        path: CONSTANT.ROUTE.CHANGE_PASSWORD,
+        element: (
+          <>
+            <Header />
+            <ChangePassword />
+          </>
+        ),
+      },
+    ],
+  },
+]);
 
 const globalCSS = css`
   /* スクロールバーのスタイル */

@@ -16,6 +16,7 @@ default: &default
   username: <%= ENV['DATABASE_DEFAULT_USER'] %>
   password: <%= ENV['DATABASE_DEFAULT_PASSWORD'] %>
   host: localhost
+  port: 3306
   ssl_mode: :disabled
   sslverify: false
 
@@ -52,6 +53,6 @@ test:
 #
 production:
   <<: *default
-  database: school_timetable_rails_production
-  username: school_timetable_rails
-  password: <%= ENV["SCHOOL_TIMETABLE_RAILS_DATABASE_PASSWORD"] %>
+  database: <%= ENV['DATABASE_PROD_NAME'] %>
+  username: <%= ENV['DATABASE_PROD_USER'] %>
+  password: <%= ENV["DATABASE_PROD_PASSWORD"] %>

@@ -69,4 +69,29 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # deviceメールの設定
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  # メール送信失敗時のエラーを発生させる
+  config.action_mailer.raise_delivery_errors = true
+  # メール送信にSMTPを使用する
+  config.action_mailer.delivery_method = :smtp
+  # SMPTの詳細設定
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.gmail.com',
+    port: 587,
+    # HELOコマンドで使用するドメイン、たぶん無くてもok
+    domain: 'smtp.gmail.com',
+    # Gmailのメールアドレス
+    user_name: ENV['GOOGLE_MAIL_ADDRESS'],
+    # Googleのアプリパスワード
+    password: ENV['GOOGLE_APP_PASSWORD'],
+    # メールサーバーの認証の種類
+    authentication: 'plain',
+    # STARTTLSを自動検出して有効化
+    enable_starttls_auto: true
+  }
+
+  # cors設定
+  config.allow_origins = ['http://localhost:5173']
 end

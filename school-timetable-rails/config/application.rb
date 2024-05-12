@@ -9,6 +9,7 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module SchoolTimetableRails
+  # Application設定用ファイル
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.1
@@ -31,11 +32,16 @@ module SchoolTimetableRails
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
+    config.session_store :cookie_store, key: '_interslice_session'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use config.session_store, config.session_options
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'localhost:5173'
+        origins Rails.configuration.allow_origins
         resource '*',
                  headers: :any,
+                 expose: %w[access-token uid client],
                  methods: %i[get post put patch delete options head]
       end
     end
