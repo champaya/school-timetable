@@ -36,7 +36,7 @@ export namespace CONSTANT {
     export const TIMETABLES_DELETE =
       "授業の削除に失敗しました。授業が登録されていることをご確認ください。";
     export const CUSTOME_ERROR_450 =
-      "他の人の時間割を登録・削除しようとしています。ログインしなおしてください。";
+      "他の人の時間割を閲覧・登録・削除しようとしています。ログインしなおしてください。";
   }
 
   /** エラーコード */
