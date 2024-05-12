@@ -43,11 +43,8 @@ const Lectures = () => {
   /** コンポーネントマウント時に授業データを取得する */
   useEffect(() => {
     (async () => {
-      const lectureResult = (await getAPI(
-        CONSTANT.API.LECTURES,
-        true
-      )) as GetLecture[];
-      setLectures(lectureResult);
+      const lectureResult = await getAPI(CONSTANT.API.LECTURES, true);
+      setLectures(lectureResult.data as GetLecture[]);
     })();
   }, [getAPI]);
 

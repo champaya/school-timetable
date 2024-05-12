@@ -14,7 +14,7 @@ module Api
                              .where(
                                'timetables.user_id = ?', params[:id]
                              )
-        render json: { status: 'SUCCESS', message: 'Loaded timetables', data: timetable }, status: :ok
+        render json: timetable
       end
 
       # POST /api/v1/timetables 対象ユーザに授業を登録する

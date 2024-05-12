@@ -32,7 +32,6 @@ const usePutAPI = () => {
         };
       }
 
-      // @todo パラメータの構造がここだけ違う
       return axios
         .put(`${CONSTANT.API.BASE}${url}` + (id ?? ""), params)
         .then((response: AxiosResponse) => {

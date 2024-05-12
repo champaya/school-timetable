@@ -34,12 +34,12 @@ const UserTimetable = () => {
   /** コンポーネントマウント時に登録済み時間割データを取得する */
   useEffect(() => {
     (async () => {
-      const timetableResult = (await getAPI(
+      const timetableResult = await getAPI(
         CONSTANT.API.TIMETABLES,
         true,
         Cookies.get(CONSTANT.COOKIES.ID)
-      )) as GetTimeTable[];
-      setTimetable(timetableResult);
+      );
+      setTimetable(timetableResult.data as GetTimeTable[]);
     })();
   }, [getAPI]);
 
