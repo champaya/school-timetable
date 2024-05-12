@@ -9,6 +9,12 @@ module Api
 
       # GET /api/v1/timetables/:id 対象ユーザの時間割を取得する
       def show
+        # 自分以外のデータを閲覧しないように、ログインユーザとリクエストのidをチェック
+        if current_api_v1_user.id != params[:id].to_i
+          render status: 450
+          return
+        end
+
         timetable = Timetable.select('timetables.day_of_week, timetables.time, timetables.period, lectures.lecture_id, lectures.lecture_name, lectures.credit_count, teachers.teacher_name ')
                              .joins('INNER JOIN lectures ON timetables.lecture_id = lectures.lecture_id INNER JOIN teachers ON lectures.teacher_id = teachers.teacher_id ')
                              .where(
@@ -20,7 +26,7 @@ module Api
       # POST /api/v1/timetables 対象ユーザに授業を登録する
       def create
         # 自分以外のデータを操作しないように、ログインユーザとリクエストのidをチェック
-        if current_api_v1_user.id != params[:user_id]
+        if current_api_v1_user.id != params[:user_id].to_i
           render status: 450
           return
         end
@@ -35,7 +41,7 @@ module Api
       # DELETE /api/v1/timetables/:id 対象ユーザの対象授業を削除する
       def destroy
         # 自分以外のデータを操作しないように、ログインユーザとリクエストのidをチェック
-        if current_api_v1_user.id != params[:id]
+        if current_api_v1_user.id != params[:id].to_i
           render status: 450
           return
         end
