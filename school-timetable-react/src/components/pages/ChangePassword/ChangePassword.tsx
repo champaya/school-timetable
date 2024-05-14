@@ -21,7 +21,7 @@ const ChangePassword = () => {
    */
   const handleClickReset = () => {
     put(
-      `${CONSTANT.API.Auth}${CONSTANT.API.PASSWORD}`,
+      CONSTANT.API.PASSWORD,
       true,
       CONSTANT.ERROR_MESSAGE.AUTH_PASSWORD_PUT,
       undefined,

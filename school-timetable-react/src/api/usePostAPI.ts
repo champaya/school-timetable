@@ -35,7 +35,7 @@ const usePostAPI = () => {
       }
 
       return axios
-        .post(`${CONSTANT.API.BASE}${url}` + (id ?? ""), params)
+        .post(`${CONSTANT.API.BASE}${url}` + (id ? `/${id}` : ""), params)
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());

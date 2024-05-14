@@ -17,7 +17,7 @@ const ResetPassword = () => {
    */
   const handleClickReset = () => {
     post(
-      `${CONSTANT.API.Auth}${CONSTANT.API.PASSWORD}`,
+      CONSTANT.API.PASSWORD,
       false,
       CONSTANT.ERROR_MESSAGE.AUTH_PASSWORD_POST,
       undefined,

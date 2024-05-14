@@ -53,7 +53,7 @@ const Header = () => {
       // ログアウトしてからログインページに遷移
       case 3:
         deleteAPI(
-          `${CONSTANT.API.Auth}${CONSTANT.API.SIGN_OUT}`,
+          CONSTANT.API.SIGN_OUT,
           true,
           CONSTANT.ERROR_MESSAGE.AUTH_SIGN_OUT_DELETE
         ).then(() => {

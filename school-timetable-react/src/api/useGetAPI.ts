@@ -35,7 +35,7 @@ const useGetAPI = () => {
       }
 
       return axios
-        .get(`${CONSTANT.API.BASE}${url}` + (id ?? ""), { params })
+        .get(`${CONSTANT.API.BASE}${url}` + (id ? `/${id}` : ""), { params })
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());
