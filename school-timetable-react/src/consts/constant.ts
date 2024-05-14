@@ -12,13 +12,12 @@ export namespace CONSTANT {
   /** APIエンドポイント */
   export namespace API {
     export const BASE = import.meta.env.VITE_API_BASE;
-    export const USERS = "users/";
-    export const TIMETABLES = "timetables/";
-    export const LECTURES = "lectures/";
-    export const Auth = "auth/";
-    export const SIGN_IN = "sign_in/";
-    export const SIGN_OUT = "sign_out/";
-    export const PASSWORD = "password/";
+    export const USERS = "users";
+    export const TIMETABLES = "timetables";
+    export const LECTURES = "lectures";
+    export const SIGN_IN = "auth/sign_in";
+    export const SIGN_OUT = "auth/sign_out";
+    export const PASSWORD = "auth/password";
   }
 
   /** エラーメッセージ */

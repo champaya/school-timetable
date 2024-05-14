@@ -35,7 +35,7 @@ const usePutAPI = () => {
       }
 
       return axios
-        .put(`${CONSTANT.API.BASE}${url}` + (id ?? ""), params)
+        .put(`${CONSTANT.API.BASE}${url}` + (id ? `/${id}` : ""), params)
         .then((response: AxiosResponse) => {
           // ローディングを非表示
           dispatch(finishLoading());

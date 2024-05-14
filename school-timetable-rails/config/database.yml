@@ -15,14 +15,14 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV['DATABASE_DEFAULT_USER'] %>
   password: <%= ENV['DATABASE_DEFAULT_PASSWORD'] %>
-  host: localhost
-  port: 3306
-  ssl_mode: :disabled
-  sslverify: false
 
 development:
   <<: *default
   database: <%= ENV['DATABASE_DEV_NAME'] %>
+  host: localhost
+  port: 3306
+  ssl_mode: :disabled
+  sslverify: false
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -30,6 +30,10 @@ development:
 test:
   <<: *default
   database: <%= ENV['DATABASE_TEST_NAME'] %>
+  host: localhost
+  port: 3306
+  ssl_mode: :disabled
+  sslverify: false
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -55,4 +59,6 @@ production:
   <<: *default
   database: <%= ENV['DATABASE_PROD_NAME'] %>
   username: <%= ENV['DATABASE_PROD_USER'] %>
-  password: <%= ENV["DATABASE_PROD_PASSWORD"] %>
+  password: <%= ENV['DATABASE_PROD_PASSWORD'] %>
+  socket: /var/lib/mysql/mysql.sock
+  host: <%= ENV['DATABASE_PROD_HOST'] %>

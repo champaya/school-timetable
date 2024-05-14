@@ -1,5 +1,5 @@
 import { wrappedUseSelector } from "../redux/store/store";
-import { GetLecture } from "../components/pages/Lectures/Lectures.model";
+import { ResponseGetLecture } from "../components/pages/Lectures/Lectures.model";
 import { CONSTANT } from "../consts/constant";
 
 /**
@@ -8,7 +8,7 @@ import { CONSTANT } from "../consts/constant";
  * @param lectures 授業一覧
  * @returns 絞り込み後授業一覧
  */
-const useFilterLectures = (lectures: GetLecture[]) => {
+const useFilterLectures = (lectures: ResponseGetLecture[]) => {
   const filterLectures = wrappedUseSelector((state) => state.filterLecture);
 
   // すべてでない場合、授業IDで絞り込み

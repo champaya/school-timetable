@@ -22,7 +22,7 @@ const Login = () => {
   const handleClickLogin = () => {
     // サインイン
     post(
-      `${CONSTANT.API.Auth}${CONSTANT.API.SIGN_IN}`,
+      CONSTANT.API.SIGN_IN,
       false,
       CONSTANT.ERROR_MESSAGE.AUTH_SIGN_IN_POST,
       undefined,
