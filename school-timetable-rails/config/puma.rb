@@ -18,6 +18,25 @@ if ENV['RAILS_ENV'] == 'production'
   require 'concurrent-ruby'
   worker_count = Integer(ENV.fetch('WEB_CONCURRENCY') { Concurrent.physical_processor_count })
   workers worker_count if worker_count > 1
+  # bind "unix://#{Rails.root.join('tmp/sockets/puma.sock')}"だとpumactlコマンドで読み込まないため絶対パスで指定
+  root_dir = '/var/www/school-timetable-api'
+
+  max_threads_count = ENV.fetch('RAILS_MAX_THREADS', 20)
+  min_threads_count = ENV.fetch('RAILS_MIN_THREADS', max_threads_count)
+  threads min_threads_count, max_threads_count
+
+  worker_timeout 80
+
+  bind "unix:#{root_dir}/tmp/sockets/puma.sock"
+
+  environment 'production'
+
+  pidfile File.expand_path('tmp/pids/server.pid')
+
+  stdout_redirect File.expand_path('log/puma_access.log'), File.expand_path('log/puma_error.log'), true
+
+  # workerの数は適宜変更する。指定しない場合はsingle modeとなるが、指定した場合はcluster modeとなる。
+  workers 2
 end
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
@@ -25,7 +44,7 @@ end
 worker_timeout 3600 if ENV.fetch('RAILS_ENV', 'development') == 'development'
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-port ENV.fetch('PORT', 3000)
+# port ENV.fetch('PORT', 3000)
 
 # Specifies the `environment` that Puma will run in.
 environment ENV.fetch('RAILS_ENV', 'development')
