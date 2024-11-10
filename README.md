@@ -43,23 +43,7 @@
 ![授業一覧画面](doc/img/image_3.png)
 
 ### セキュリティ機能
-```ruby
-# GET /api/v1/timetables/:id 対象ユーザの時間割を取得する
-def show
-  # 自分以外のデータを閲覧しないように、ログインユーザとリクエストのidをチェック
-  if current_api_v1_user.id != params[:id].to_i
-    render status: 450
-    return
-  end
-
-  timetable = Timetable.select('timetables.day_of_week, timetables.time, timetables.period, lectures.lecture_id, lectures.lecture_name, lectures.credit_count, teachers.teacher_name ')
-                       .joins('INNER JOIN lectures ON timetables.lecture_id = lectures.lecture_id INNER JOIN teachers ON lectures.teacher_id = teachers.teacher_id ')
-                       .where(
-                         'timetables.user_id = ?', params[:id]
-                       )
-  render json: timetable
-end
-```
+- ログインユーザ以外のユーザの閲覧/更新はできないように認証情報をチェック
 
 ## 技術スタック
 
